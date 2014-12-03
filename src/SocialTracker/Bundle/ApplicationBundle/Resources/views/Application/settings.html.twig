@@ -1,0 +1,126 @@
+{% extends "SocialTrackerApplicationBundle::Application/layout.html.twig" %}
+
+{% block title %}Réglages{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Status des réseaux sociaux</h3>
+                </div>
+                <div class="panel-body">
+                    <!-- Modal Activation -->
+                    <div id='modal-active' class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Activer Reseau Social</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Voulez-vous activer</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                                    <button type="button" class="btn btn-primary submit">Oui</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal Activation -->
+                    <table class="table" id="table-social">
+                        <tr>
+                            <th></th>
+                            <th>Réseau Social</th>
+                            <th><i class='fa fa-times fa-lg'></i>/<i class='fa fa-check fa-lg'></i></th>
+                            <th>Status</th>
+                            <th>Nom d'utilisateur</th>
+                        </tr>
+
+                        <!-- Instagram -->
+                        <tr class='instagram {% if 'instagram' not in socials %}active{% endif %}'>
+                            <td class='logo'><i class='fa fa-instagram fa-lg'></i></td>
+                            <td><strong>Instagram</strong></td>
+                            {% if 'instagram' in socials %}
+                                <td><i data-social="instagram" data-action="desactivate" class="fa fa-check fa-lg brand-success open-active-modal"></i></td>
+                                <td>
+                                    {% if app.session.get('instagram') is not null %}
+                                        <span class='label label-success connect' data-social='instagram'>Connecté</span>
+                                    {% else %}
+                                        <span class='label label-default disconnect' data-social='instagram'><a href="{{instagramUrl}}">Déconnecté</a></span>
+                                    {% endif %}
+                                </td>
+                                <td>{% if app.session.get('instagram') is not null %}{{app.session.get('instagram').username}}{% endif %}</td>
+                            {% else %}
+                                <td><i data-social="instagram" data-action="activate" class="fa fa-times fa-lg brand-danger open-active-modal"></i></td>
+                                <td></td>
+                                <td></td>
+                            {% endif %}
+                        </tr>
+
+                        <!-- Facebook -->
+                        <tr class='facebook {% if 'facebook' not in socials %}active{% endif %}'>
+                            <td class='logo'><i class='fa fa-facebook fa-lg'></td>
+                            <td><strong>Facebook</strong></td>
+                            {% if 'facebook' in socials %}
+                                <td><i data-social="facebook" data-action="desactivate" class="fa fa-check fa-lg brand-success open-active-modal"></i></td>
+                                <td>
+                                    {% if app.session.get('facebook') is not null and facebookUrl is defined %}
+                                        <span class='label label-success connect' data-social='facebook'>Connecté</span>
+                                    {% else %}
+                                        <span class='label label-default disconnect' data-social='facebook'><a href="{{facebookUrl}}">Déconnecté</a></span>
+                                    {% endif %}
+                                </td>
+                                <td>{% if app.session.get('instagram') is not null %}{{app.session.get('facebook').username}}{% endif %}</td>
+                            {% else %}
+                                <td><i data-social="facebook" data-action="activate" class="fa fa-times fa-lg brand-danger open-active-modal"></i></td>
+                                <td></td>
+                                <td></td>
+                            {% endif %}
+                        </tr>
+
+                        <!-- Youtube -->
+                        <tr class='youtube {% if 'youtube' not in socials %}active{% endif %}'>
+                            <td class='logo'><i class='fa fa-youtube fa-lg'></td>
+                            <td><strong>Youtube</strong></td>
+                            {% if 'youtube' in socials %}
+                                <td><i data-social="youtube" data-action="desactivate" class="fa fa-check fa-lg brand-success open-active-modal"></i></td>
+                                <td><span class='label label-success connect' data-social='youtube'>Connecté</span></td>
+                                <td>fnk.lap@gmail.com</td>
+                            {% else %}
+                                <td><i data-social="youtube" data-action="activate" class="fa fa-times fa-lg brand-danger open-active-modal"></i></td>
+                                <td></td>
+                                <td></td>
+                            {% endif %}
+                        </tr>
+
+                        <!-- Twitter -->
+                        <tr class='twitter {% if 'twitter' not in socials %}active{% endif %}'>
+                            <td class='logo'><i class='fa fa-twitter fa-lg'></td>
+                            <td><strong>Twitter</strong></td>
+                            {% if 'twitter' in socials %}
+                                <td><i data-social="twitter" data-action="desactivate" class="fa fa-check fa-lg brand-success open-active-modal"></i></td>
+                                <td><span class='label label-default disconnect' data-social='twitter'>Déconnecté</span></td>
+                                <td>@FnK</td>
+                            {% else %}
+                                <td><i data-social="twitter" data-action="activate" class="fa fa-times fa-lg brand-danger open-active-modal"></i></td>
+                                <td></td>
+                                <td></td>
+                            {% endif %}                            
+                        </tr>
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %} 
+
+{% block script %}
+    <script src="/assets/js/module/ajaxClass.js"></script>
+    <script src="/assets/js/module/instagramClass.js"></script>
+
+    <script src="/assets/js/pageScript/settings.js"></script>
+{% endblock %}

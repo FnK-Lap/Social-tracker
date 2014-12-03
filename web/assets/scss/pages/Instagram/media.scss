@@ -1,0 +1,42 @@
+.media-img{
+    img{
+        margin: auto;
+    }
+}
+
+.media-author{
+    padding-top: 30px;
+    text-align: center;
+    img{
+        float: left;
+    }
+
+    .liked{
+        border-color: #e74c3c!important;
+        color: #e74c3c;
+    }
+    h4{
+        line-height: 50px;
+        float: left;
+        margin: 0;
+        padding-left: 30px;
+    }
+
+    .like{
+        line-height: 50px;
+        i{
+            margin-right: 5px;
+        }
+    }
+
+    .comment{
+        line-height: 50px;
+        i{
+            margin-right: 5px;
+        }
+    }
+}
+
+.media-caption{
+    padding-top:30px;
+}

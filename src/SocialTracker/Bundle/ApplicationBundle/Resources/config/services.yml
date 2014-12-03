@@ -1,0 +1,10 @@
+services:
+    application_service:
+       class: SocialTracker\Bundle\ApplicationBundle\Services\ApplicationService
+       arguments: [@doctrine.orm.entity_manager, @security.context]
+    instagram_service:
+       class: SocialTracker\Bundle\ApplicationBundle\Services\InstagramService
+       arguments: [%instagram_client_id%, %instagram_secret%, @guzzle.client, @session]
+    facebook_service:
+       class: SocialTracker\Bundle\ApplicationBundle\Services\FacebookService
+       arguments: [%facebook_client_id%, %facebook_secret%, @guzzle.client, @session]

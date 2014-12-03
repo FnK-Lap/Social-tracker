@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Lapeyre Franck">
+        <title>Social Tracker - {% block title %}{% endblock %}</title>
+
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/assets/css/app.min.css" rel="stylesheet">
+        <link href="/assets/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="/assets/js/libs/jquery.min.js"></script>
+        <script src="/assets/js/libs/bootstrap.min.js"></script>
+    </head>
+    <body class="bg-clouds">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-md-6 col-md-offset-3" id='login-box'>
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div><!--/row-->       
+        </div>
+
+        {% block script %}
+        {% endblock %}
+    </body>
+</html>

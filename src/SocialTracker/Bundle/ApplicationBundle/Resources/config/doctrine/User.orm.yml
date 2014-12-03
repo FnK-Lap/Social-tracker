@@ -1,0 +1,14 @@
+SocialTracker\Bundle\ApplicationBundle\Entity\User:
+    type: entity
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        social:
+            type: simple_array
+            nullable: true
+    lifecycleCallbacks: {  }

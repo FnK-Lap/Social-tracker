@@ -1,0 +1,11 @@
+// Make sure the charset is set appropriately
+@charset "UTF-8";
+
+@import 'base/base';
+
+@import 'layout/layout';
+@import 'layout/sidebar';
+
+@import 'pages/settings';
+@import 'pages/Instagram/home';
+@import 'pages/Instagram/media';

@@ -1,0 +1,11 @@
+{% extends "SocialTrackerApplicationBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+
+    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+    <a href="{{ path('application_home') }}">{{ 'registration.back'|trans }}</a>
+
+
+{% endblock content %}

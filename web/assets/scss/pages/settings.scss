@@ -1,0 +1,27 @@
+#table-social {
+    td, th{
+        text-align: center;
+    }
+
+    .open-active-modal {
+        cursor: pointer;
+    }
+
+    a:link, a:visited, a:hover, a:active {
+        color: #FFF;
+        text-decoration: none;
+    }
+
+    .instagram .logo i{
+        color: $instagram;
+    }
+    .facebook .logo i{
+        color: $facebook;
+    }
+    .youtube .logo i{
+        color: $youtube;
+    }
+    .twitter .logo i{
+        color: $twitter;
+    }
+}

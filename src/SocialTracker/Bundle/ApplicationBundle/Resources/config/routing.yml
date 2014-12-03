@@ -1,0 +1,42 @@
+# Application
+application_home:
+    path:   /
+    defaults:  { _controller: SocialTrackerApplicationBundle:Application:home }
+
+application_settings:
+    path:   /settings
+    defaults: { _controller: SocialTrackerApplicationBundle:Application:settings }
+
+application_add_social:
+    path:   /social/add
+    defaults: { _controller: SocialTrackerApplicationBundle:Application:ajaxAddSocial }
+
+application_remove_social:
+    path:   /social/remove
+    defaults: { _controller: SocialTrackerApplicationBundle:Application:ajaxRemoveSocial }
+
+# Instagram
+instagram_home:
+    path:   /instagram
+    defaults: { _controller: SocialTrackerApplicationBundle:Instagram:home }
+
+instagram_user_feed:
+    path:   /instagram/feed/{maxId}
+    defaults: { _controller: SocialTrackerApplicationBundle:Instagram:ajaxUserFeed }
+
+instagram_media_show:
+    path:   /instagram/{id}
+    defaults: { _controller: SocialTrackerApplicationBundle:Instagram:showMedia }
+
+instagram_media_like:
+    path:   /instagram/{id}/like
+    defaults: { _controller: SocialTrackerApplicationBundle:Instagram:ajaxLikeMedia }
+
+instagram_media_dislike:
+    path:   /instagram/{id}/dislike
+    defaults: { _controller: SocialTrackerApplicationBundle:Instagram:ajaxDislikeMedia }
+
+# Facebook
+facebook_home:
+    path:   /facebook
+    defaults: { _controller: SocialTrackerApplicationBundle:Facebook:home }

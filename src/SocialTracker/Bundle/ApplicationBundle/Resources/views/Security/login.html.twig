@@ -1,0 +1,40 @@
+{% extends "SocialTrackerApplicationBundle::layout.html.twig" %}
+
+{% block title %}Se connecter{% endblock %}
+
+{% block content %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+        <div class="form-group">
+            <label for="username" class='col-sm-3 control-label'>Pseudo</label>
+            <div class="col-sm-9">
+                <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class='form-control' placeholder='Pseudo'>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class='col-sm-3 control-label'>Password</label>
+            <div class="col-sm-9">
+                <input type="password" id="password" name="_password" required="required" class='form-control' placeholder="••••••••">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="remember_me" name="_remember_me" value="on"> Se souvenir de moi
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-5 col-sm-2">
+                <input type="submit" id="_submit" name="_submit" value="Connecter" class='btn btn-info'>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "SocialTrackerApplicationBundle::layout.html.twig" %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block content %}
+    {% trans_default_domain 'FOSUserBundle' %}
+    <h3>S'inscrire</h3>
+    <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal" role="form">
+        <div class="form-group">
+            {{ form_label(form.username, 'Pseudo', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Pseudo'}}) }}
+            </div>
+            <div class='col-sm-9 col-sm-offset-3 form-errors'>
+                {{ form_errors(form.username) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.email, 'Email', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+            </div>
+            <div class='col-sm-9 col-sm-offset-3 form-errors'>
+                {{ form_errors(form.email) }}
+            </div>
+        </div>
+        {% for passwordField in form.plainPassword %}
+            <div class="form-group">
+                {{ form_label(passwordField, null, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                <div class="col-sm-9">
+                    {{ form_widget(passwordField, {'attr': {'class': 'form-control', 'placeholder': '••••••••'}}) }}
+                </div>
+                <div class='col-sm-9 col-sm-offset-3 form-errors'>
+                {{ form_errors(passwordField) }}
+            </div>
+            </div>
+        {% endfor %}
+        {{form_rest(form)}}
+        <div class="form-group">
+            <div class="col-sm-offset-5 col-sm-2">
+                <button type="submit" class="btn btn-info">Sign in</button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

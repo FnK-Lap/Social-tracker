@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Lapeyre Franck">
+        <title>Social Tracker - {% block title %}{% endblock %}</title>
+
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/assets/css/app.min.css" rel="stylesheet">
+        <link href="/assets/css/font-awesome.min.css" rel="stylesheet">
+
+        <script src="/assets/js/libs/jquery.min.js"></script>
+        <script src="/assets/js/libs/bootstrap.min.js"></script>
+
+        <script src="/assets/js/module/sidebar.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="wrapper" class="active">
+                    <!-- Sidebar -->
+                        <!-- Sidebar -->
+                        <div id="sidebar-wrapper">
+                            <ul id="sidebar_menu" class="sidebar-nav">
+                                <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<i class="sub_icon fa fa-bars fa-lg"></i></a></li>
+                            </ul>
+                            <ul class="sidebar-nav" id="sidebar">
+                                <li class='instagram'><a href="{{path('instagram_home')}}">Instagram<i class="sub_icon fa fa-instagram fa-2x"></i></a></li>
+                                <li class='facebook'><a>Facebook<i class="sub_icon fa fa-facebook fa-2x"></i></a></li>
+                                <li class='youtube'><a>Youtube<i class="sub_icon fa fa-youtube fa-2x"></i></a></li>
+                                <li class='twitter'><a>Twitter<i class="sub_icon fa fa-twitter fa-2x"></i></a></li>
+                                <li><a href="{{path('application_settings')}}">Réglage<i class="sub_icon fa fa-cogs fa-2x"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Page content -->
+                        <div id="page-content-wrapper">
+                            <!-- Keep all page content within the page-content inset div! -->
+                            <div class="page-content inset">
+                                {% for flashMessage in app.session.flashbag.get('error') %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        {{ flashMessage }}
+                                    </div>
+                                {% endfor %}
+                                {% for flashMessage in app.session.flashbag.get('success') %}
+                                    <div class="alert alert-success alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        {{ flashMessage }}
+                                    </div>
+                                {% endfor %}
+                                {% block content %}
+                                {% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!--/row-->       
+        </div>
+
+        {% block script %}
+        <script type="text/javascript">
+   
+        </script>
+        {% endblock %}
+    </body>
+</html>

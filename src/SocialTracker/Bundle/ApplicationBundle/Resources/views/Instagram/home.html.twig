@@ -1,0 +1,58 @@
+{% extends "SocialTrackerApplicationBundle::Application/layout.html.twig" %}
+
+{% block title %}Instagram{% endblock %}
+
+{% block content %}
+    {% if userFeed is defined %}
+        <ul class='grid cs-style-3'>
+            {% for post in userFeed.data %}
+                <li>
+                    <figure>
+                        {% if post.type == 'video' %}
+                            <i class='fa fa-video-camera fa-border fa-lg'></i>
+                        {% endif %}
+                        {% if post.user_has_liked == true %}
+                            <i class='fa fa-heart fa-lg'></i>
+                        {% endif %}
+                        <a href="/instagram/{{post.id}}"><img src="{{post.images.low_resolution.url}}"></a>
+                        <figcaption>
+                            <h5>{{post.user.username}}</h5>
+                            {% if post.caption.text is defined %}
+                                <span>{{post.caption.text}}</span>
+                            {% endif %}
+                        </figcaption>
+                    </figure>
+                </li>
+            {% endfor %}
+            <li class='load-more'>
+                <img id='load-more' src="/assets/img/add.jpg">
+                <div id='loader'>
+                    <div id="circularG">
+                        <div id="circularG_1" class="circularG"></div>
+                        <div id="circularG_2" class="circularG"></div>
+                        <div id="circularG_3" class="circularG"></div>
+                        <div id="circularG_4" class="circularG"></div>
+                        <div id="circularG_5" class="circularG"></div>
+                        <div id="circularG_6" class="circularG"></div>
+                        <div id="circularG_7" class="circularG"></div>
+                        <div id="circularG_8" class="circularG"></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Vous n'êtes pas connecté a Instagram. Veuillez <a href="{{path('application_settings')}}" class="alert-link">vous connecter</a> !
+        </div>
+    {% endif %}
+{% endblock %} 
+
+{% block script %}
+    <script type="text/javascript">
+    var maxId = "{{userFeed.pagination.next_max_id|default}}"
+    </script>
+    <script src="/assets/js/module/ajaxClass.js"></script>
+    <script src="/assets/js/module/instagramClass.js"></script>
+
+    <script src="/assets/js/pageScript/instagram.js"></script>
+{% endblock %}
