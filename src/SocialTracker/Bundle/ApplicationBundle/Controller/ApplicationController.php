@@ -39,18 +39,19 @@ class ApplicationController extends Controller
         {
             if ($social == 'instagram') 
             {
-                $result = $instagramService->getAccessToken($code);
+                $instagramService->getAccessToken($code);
+            }
+            elseif ($social == 'facebook') 
+            {
+                $result = $facebookService->getAccessToken();
                 if ($result['code'] != 200) 
                 {
+                    $session = $this->get('session');
                     $session->getFlashBag()->add(
                         'error',
                         $result['message']
                     );
                 }
-            }
-            elseif ($social == 'facebook') 
-            {
-                $facebookService->getAccessToken();
             }
             
         }

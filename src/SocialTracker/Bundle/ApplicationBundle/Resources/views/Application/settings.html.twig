@@ -72,7 +72,7 @@
                                         <span class='label label-default disconnect' data-social='facebook'><a href="{{facebookUrl}}">Déconnecté</a></span>
                                     {% endif %}
                                 </td>
-                                <td>{% if app.session.get('instagram') is not null %}{{app.session.get('facebook').username}}{% endif %}</td>
+                                <td>{% if app.session.get('facebook') is not null %}{{app.session.get('facebook').username}}{% endif %}</td>
                             {% else %}
                                 <td><i data-social="facebook" data-action="activate" class="fa fa-times fa-lg brand-danger open-active-modal"></i></td>
                                 <td></td>

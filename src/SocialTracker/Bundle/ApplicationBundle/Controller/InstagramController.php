@@ -22,7 +22,6 @@ class InstagramController extends Controller
 
         $response = new Response();
         $response->setEtag(md5(json_encode($userFeed['data'][0]['images'])));
-        // $response->setPublic();
 
         if ($response->isNotModified($this->getRequest())) {
             // Retourne immédiatement un objet 304 Response

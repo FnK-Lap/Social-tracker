@@ -3,4 +3,60 @@
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
+    <div class="page-header">
+        <h1>Social Tracker</h1>
+    </div>
+    <!-- Quick Publish Facebook / Twitter -->
+    <div class="row quick-publish">
+        <!-- Facebook -->
+        {% if app.session.get('facebook') is not null
+            and app.session.get('twitter') is null %}
+            <div class="col-lg-6 col-lg-offset-3">
+                <div class="input-group" id='facebook-quick-publish'>
+                    <input type="text" class="form-control text-right" placeholder='Publier un statut'>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default facebook-color" type="button"><i class='fa fa-facebook fa-lg'></i></button>
+                    </span>
+                </div>
+            </div>
+        <!-- Twitter -->
+        {% elseif app.session.get('facebook') is null
+            and app.session.get('twitter') is not null %}
+            <div class="col-lg-6 col-lg-offset-3">
+                <div class="input-group">
+                    <span class="input-group-btn" id='twitter-quick-publish'>
+                        <button class="btn btn-default twitter-color" type="button"><i class='fa fa-twitter fa-lg'></i></button>
+                    </span>
+                    <input type="text" class="form-control"  placeholder='Quoi de neuf ?'>
+                </div>
+            </div>
+        <!-- Facebook Twitter -->
+        {% elseif app.session.get('facebook') is not null
+            and app.session.get('twitter') is not null %}
+            <div class="col-lg-6">
+                <div class="input-group" id='facebook-quick-publish'>
+                    <input type="text" class="form-control text-right" placeholder='Publier un statut'>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default facebook-color" type="button"><i class='fa fa-facebook fa-lg'></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group" id='twitter-quick-publish'>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default twitter-color" type="button"><i class='fa fa-twitter fa-lg'></i></button>
+                    </span>
+                    <input type="text" class="form-control"  placeholder='Quoi de neuf ?'>
+                </div>
+            </div>
+        {% endif %}
+    </div><!-- /.row -->
+    <!-- End Quick Publish -->
 {% endblock %} 
+
+{% block script %}
+    <script src="/assets/js/module/ajaxClass.js"></script>
+    <script src="/assets/js/module/facebookClass.js"></script>
+
+    <script src="/assets/js/pageScript/facebook.js"></script>
+{% endblock %}

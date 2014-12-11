@@ -93,6 +93,9 @@
 
 @media screen and (max-width: 767px) { #wrapper.active { padding-left: 65px; }
   #wrapper.active #sidebar-wrapper { left: 65px; } }
+.quick-publish .facebook-color { background-color: #3b5998; color: #fff; border-color: transparent; }
+.quick-publish .twitter-color { background-color: #00aced; color: #fff; border-color: transparent; }
+
 #table-social td, #table-social th { text-align: center; }
 #table-social .open-active-modal { cursor: pointer; }
 #table-social a:link, #table-social a:visited, #table-social a:hover, #table-social a:active { color: #FFF; text-decoration: none; }

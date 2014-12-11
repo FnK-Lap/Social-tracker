@@ -40,3 +40,7 @@ instagram_media_dislike:
 facebook_home:
     path:   /facebook
     defaults: { _controller: SocialTrackerApplicationBundle:Facebook:home }
+
+facebook_publish:
+    path:   /facebook/publish
+    defaults: { _controller: SocialTrackerApplicationBundle:Facebook:ajaxPublish }

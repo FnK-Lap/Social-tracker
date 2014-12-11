@@ -1,0 +1,45 @@
+{% extends "SocialTrackerApplicationBundle::Application/layout.html.twig" %}
+
+{% block title %}Facebook{% endblock %}
+
+{% block content %}
+    {% if feeds is defined %}
+        {# 
+            Type of feed :
+                - Video
+                - Status
+                    - mobile_status_update
+                - Photos
+                - Link
+                - Page
+                - Note
+                - Group
+        #}
+        {% for feed in feeds.data %}
+            <div class='row'>
+                {% if feed.type == 'status' %}
+                {% set picture = attribute(userCovers, feed.from.id) %}
+                    <div class="media">
+                        <a href="#" class="media-left">
+                            <img alt="{{feed.from.name}}" class="img-circle" style="width: 50px; height: 50px;" src="{{picture.picture.data.url}}">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{feed.from.name}}{% if feed.to is defined %}<small> <i class="fa fa-hand-o-right"></i>
+ {{feed.to.data.0.name}} </small>{% endif %}</h4>
+                            {% if feed.status_type is defined and feed.status_type == 'mobile_status_update' %}
+                                <p>{{feed.message}}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                {% endif %}
+            </div>
+        {% endfor %}
+        {{dump(feeds)}}
+
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Vous n'êtes pas connecté a Facebook. Veuillez <a href="{{path('application_settings')}}" class="alert-link">vous connecter</a> !
+        </div>
+    {% endif %}
+{% endblock %}
