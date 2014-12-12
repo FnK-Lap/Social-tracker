@@ -7,8 +7,10 @@
         {# 
             Type of feed :
                 - Video
-                - Status
-                    - mobile_status_update
+                    - Status_type
+                        - shared_story
+                        - added_video
+                / Status 
                 - Photos
                 - Link
                 - Page
@@ -17,25 +19,46 @@
         #}
         {% for feed in feeds.data %}
             <div class='row'>
-                {% if feed.type == 'status' %}
-                {% set picture = attribute(userCovers, feed.from.id) %}
+                {#
+                    Status
+                #}
+                {% if feed.type == 'status' and feed.story is not defined %}
+                    {% set picture = attribute(userCovers, feed.from.id) %}
                     <div class="media">
                         <a href="#" class="media-left">
                             <img alt="{{feed.from.name}}" class="img-circle" style="width: 50px; height: 50px;" src="{{picture.picture.data.url}}">
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">{{feed.from.name}}{% if feed.to is defined %}<small> <i class="fa fa-hand-o-right"></i>
- {{feed.to.data.0.name}} </small>{% endif %}</h4>
-                            {% if feed.status_type is defined and feed.status_type == 'mobile_status_update' %}
+                            <h4 class="media-heading">{{feed.from.name}}{% if feed.to is defined %}<small> <i class="fa fa-hand-o-right"></i> {{feed.to.data.0.name}} </small>{% endif %}</h4>
+                            
+                            {% if feed.message is defined %}
                                 <p>{{feed.message}}</p>
                             {% endif %}
                         </div>
                     </div>
-
+                    <hr>
+                {% elseif feed.type == 'video' %}
+                    {% set picture = attribute(userCovers, feed.from.id) %}
+                    <div class="media">
+                        <a href="#" class="media-left">
+                            <img alt="{{feed.from.name}}" class="img-circle" style="width: 50px; height: 50px;" src="{{picture.picture.data.url}}">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{feed.from.name}}</h4>
+                            <img src="{{feed.picture}}" width='200'><br>
+                            {% if feed.description is defined %}{{feed.description}}{% endif %}
+                        </div>
+                    </div>
+                    <hr>
                 {% endif %}
             </div>
         {% endfor %}
-        {{dump(feeds)}}
+
+        {% for feed in feeds.data %}
+            {% if feed.type == 'video' %}
+                {{dump(feed)}}
+            {% endif %}
+        {% endfor %}
 
     {% else %}
         <div class="alert alert-info" role="alert">

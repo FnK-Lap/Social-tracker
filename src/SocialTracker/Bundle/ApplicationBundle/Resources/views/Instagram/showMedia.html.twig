@@ -29,16 +29,17 @@
             <span class="btn btn-default"><i class='fa fa-comment-o fa-lg'></i>Commentaires ({{media.data.comments.count}})</span>
         </div>
     </div>
-    <div class='row media-caption'>
-        <div class='col-md-8 col-md-offset-2'>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                {{media.data.caption.text}}
-              </div>
+    {% if media.data.caption.text is defined %}
+        <div class='row media-caption'>
+            <div class='col-md-8 col-md-offset-2'>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {{media.data.caption.text}}
+                    </div>
+                </div>
             </div>
-            
         </div>
-    </div>
+    {% endif %}
     <div class='row'>
         <div class='col-md-12 col-sm-12 col-xs-12'>
             <h3>Derniers commentaires</h3>
