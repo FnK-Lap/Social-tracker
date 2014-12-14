@@ -34,3 +34,5 @@
 /composer.phar
 
 .sass-cache/*
+/web/assets/css/app.css
+/web/assets/css/app.min.css
