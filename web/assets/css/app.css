@@ -138,3 +138,5 @@
 .media-author .comment i { margin-right: 5px; }
 
 .media-caption { padding-top: 30px; }
+
+.facebook-video .media-body img, .facebook-video .media-body embed { display: block; }

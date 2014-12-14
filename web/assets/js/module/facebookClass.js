@@ -8,7 +8,6 @@ var Facebook = function (ajax){
     }
 
     function quickPublishSuccess(data) {
-        console.log(data);
         if(typeof(data.message) == "undefined" || data.message === null) {
             $('#facebook-quick-publish').children('input').attr('placeholder', 'Statut publié');
         } else {
@@ -16,9 +15,24 @@ var Facebook = function (ajax){
         }
     }
 
+    function startVideo() {
+        var videoSrc   = $(this).data('video');
+        var pictureSrc = $(this).attr('src');
+        var regExWidthAndHeight = /rl=([0-9]+)&vabr=([0-9]+)/;
+
+        var widthHeight = regExWidthAndHeight.exec(videoSrc);
+        if (widthHeight !== null) {
+            $(this).replaceWith("<embed src='" + videoSrc + "' width='"+widthHeight[1]+"' height='"+widthHeight[1]+"' >");
+        }else {
+            $(this).replaceWith("<embed src='" + videoSrc + "'>");
+        };
+        
+    }
+
 
     return{
-        quickPublish: quickPublish,
-        quickPublishSuccess: quickPublishSuccess,
+               quickPublish:   quickPublish,
+        quickPublishSuccess:   quickPublishSuccess,
+                 startVideo:   startVideo
     }
 }
