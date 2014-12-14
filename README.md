@@ -3,3 +3,31 @@ Social-tracker
 
 A school project for Sup'Internet.
 
+Connect to Facebook, Instagram, Twitter and Youtube and get your own feed in one website.
+
+Instagram:
+  - Get your feed (images and videos)
+  - Like media
+  - Get last comments on a media
+  - Get number of like and comment
+
+Facebook:
+  - Get your feed (status, videos ...)
+  - In progress
+  
+Twitter:
+  - In progress
+
+Youtube:
+  - In progress
+
+#Instalation
+Change the Client_id and Secret for each social network with your own ids
+```YML
+#app/config/parameters.yml
+instagram_client_id:  YourOwnInstagramClientId
+instagram_secret:     YourOwnInstagramSecret
+
+facebook_client_id:   YourOwnFacebookClientId
+facebook_secret:      YourOwnFacebookSecret
+```
