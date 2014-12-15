@@ -11,22 +11,23 @@
                         - shared_story
                         - added_video
                 / Status 
-                - Photos
+                / Photos
+                    tagged_in_photo
                 - Link
                 - Page
                 - Note
                 - Group
         #}
         {% for feed in feeds.data %}
-            <div class='row'>
+            <div class='row facebook-feed'>
+                {% set picture = attribute(userCovers, feed.from.id) %}
                 {#
                     Status
                 #}
                 {% if feed.type == 'status' and feed.story is not defined %}
-                    {% set picture = attribute(userCovers, feed.from.id) %}
                     <div class="media facebook-status">
                         <a href="#" class="media-left">
-                            <img alt="{{feed.from.name}}" class="img-circle" style="width: 50px; height: 50px;" src="{{picture.picture.data.url}}">
+                            <img alt="{{feed.from.name}}" class="img-circle avatar" src="{{picture.picture.data.url}}">
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">{{feed.from.name}}{% if feed.to is defined %}<small> <i class="fa fa-hand-o-right"></i> {{feed.to.data.0.name}} </small>{% endif %}</h4>
@@ -38,15 +39,35 @@
                     </div>
                     <hr>
                 {% elseif feed.type == 'video' %}
-                    {% set picture = attribute(userCovers, feed.from.id) %}
                     <div class="media facebook-video">
                         <a href="#" class="media-left">
-                            <img alt="{{feed.from.name}}" class="img-circle" style="width: 50px; height: 50px;" src="{{picture.picture.data.url}}">
+                            <img alt="{{feed.from.name}}" class="img-circle avatar" src="{{picture.picture.data.url}}">
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">{{feed.from.name}}</h4>
-                            <img class='facebook-video-picture' src="{{feed.picture}}" width='200' data-video='{{feed.source}}'>
-                            {% if feed.description is defined %}{{feed.description}}{% endif %}
+                            <img class='facebook-video-picture img-thumbnail' src="{{feed.picture}}" width='200' data-video='{{feed.source}}'>
+                            {% if feed.description is defined %}<p>{{feed.description}}</p>{% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                {% elseif feed.type == 'photo' %}
+                    <div class='media facebook-photo'>
+                        <a href="#" class='media-left'>
+                            <img alt='{{feed.from.name}}' class='img-circle avatar' src="{{picture.picture.data.url}}">
+                        </a>
+                        <div class='media-body'>
+                            <h4 class='media-heading'>{{feed.from.name}}
+                                {% if feed.status_type is defined and feed.status_type == 'tagged_in_photo' %}
+                                    <small><i class="fa fa-tag"></i>{% set user = attribute(feed.story_tags, feed.story_tags.0[0].length + 15)%} Identifié sur la photo de {{user[0].name}}</small>
+                                {% elseif feed.status_type is defined and feed.status_type == 'added_photos' %}
+                                    <small><i class='fa fa-plus'></i> A ajouté une photo</small>
+                                {% endif %}
+                            </h4>
+                            <div>
+                                <img src="{{feed.picture}}" class='img-rounded'>
+                            </div>
+                            {% if feed.description is defined %}<p>{{feed.description}}</p>{% endif %}
+                            {% if feed.message is defined %}<p>{{feed.message}}</p>{% endif %}
                         </div>
                     </div>
                     <hr>
@@ -55,7 +76,7 @@
         {% endfor %}
 
         {% for feed in feeds.data %}
-            {% if feed.type == 'video' %}
+            {% if feed.type == 'photo' %}
                 {{dump(feed)}}
             {% endif %}
         {% endfor %}

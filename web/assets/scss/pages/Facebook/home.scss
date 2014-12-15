@@ -1,7 +1,31 @@
+.facebook-feed {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .facebook-video {
     .media-body {
         img, embed{
             display: block;
         }
+    }
+}
+
+.facebook-status, .facebook-video, .facebook-photo {
+    avatar {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.facebook-photo .media-body {
+    div{
+        display: table-cell;
+    }
+
+    p {
+        display: table-cell;
+        vertical-align: middle;
+        padding-left: 2em;
     }
 }

@@ -139,4 +139,11 @@
 
 .media-caption { padding-top: 30px; }
 
+.facebook-feed { padding-top: 10px; padding-bottom: 10px; }
+
 .facebook-video .media-body img, .facebook-video .media-body embed { display: block; }
+
+.facebook-status avatar, .facebook-video avatar, .facebook-photo avatar { width: 50px; height: 50px; }
+
+.facebook-photo .media-body div { display: table-cell; }
+.facebook-photo .media-body p { display: table-cell; vertical-align: middle; padding-left: 2em; }
