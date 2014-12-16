@@ -141,9 +141,9 @@
 
 .facebook-feed { padding-top: 10px; padding-bottom: 10px; }
 
-.facebook-video .media-body img, .facebook-video .media-body embed { display: block; }
+.facebook-video .media-body img, .facebook-video .media-body embed { display: block; cursor: pointer; }
 
 .facebook-status avatar, .facebook-video avatar, .facebook-photo avatar { width: 50px; height: 50px; }
 
-.facebook-photo .media-body div { display: table-cell; }
-.facebook-photo .media-body p { display: table-cell; vertical-align: middle; padding-left: 2em; }
+.facebook-photo .media-body div, .facebook-link .media-body div { display: table-cell; }
+.facebook-photo .media-body p, .facebook-photo .media-body .info, .facebook-link .media-body p, .facebook-link .media-body .info { display: table-cell; vertical-align: middle; padding-left: 2em; }

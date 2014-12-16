@@ -13,18 +13,18 @@
                 / Status 
                 / Photos
                     tagged_in_photo
-                - Link
+                / Link
                 - Page
                 - Note
                 - Group
         #}
         {% for feed in feeds.data %}
-            <div class='row facebook-feed'>
-                {% set picture = attribute(userCovers, feed.from.id) %}
-                {#
-                    Status
-                #}
-                {% if feed.type == 'status' and feed.story is not defined %}
+            {% set picture = attribute(userCovers, feed.from.id) %}
+            {#
+                Status
+            #}
+            {% if feed.type == 'status' and feed.story is not defined %}
+                <div class='row facebook-feed'>
                     <div class="media facebook-status">
                         <a href="#" class="media-left">
                             <img alt="{{feed.from.name}}" class="img-circle avatar" src="{{picture.picture.data.url}}">
@@ -38,7 +38,12 @@
                         </div>
                     </div>
                     <hr>
-                {% elseif feed.type == 'video' %}
+                </div>
+            {#
+                Video
+            #}
+            {% elseif feed.type == 'video' %}
+                <div class='row facebook-feed'>
                     <div class="media facebook-video">
                         <a href="#" class="media-left">
                             <img alt="{{feed.from.name}}" class="img-circle avatar" src="{{picture.picture.data.url}}">
@@ -50,7 +55,12 @@
                         </div>
                     </div>
                     <hr>
-                {% elseif feed.type == 'photo' %}
+                </div>
+            {#
+                Photo
+            #}
+            {% elseif feed.type == 'photo' %}
+                <div class='row facebook-feed'>
                     <div class='media facebook-photo'>
                         <a href="#" class='media-left'>
                             <img alt='{{feed.from.name}}' class='img-circle avatar' src="{{picture.picture.data.url}}">
@@ -71,12 +81,35 @@
                         </div>
                     </div>
                     <hr>
-                {% endif %}
-            </div>
+                </div>
+            {% elseif feed.type == 'link' and feed.picture is defined %}
+                <div class='row facebook-feed'>
+                    <div class='media facebook-link'>
+                        <a href="#" class='media-left'>
+                            <img alt='{{feed.from.name}}' class='img-circle avatar' src="{{picture.picture.data.url}}">
+                        </a>
+                        <div class='media-body'>
+                            <h4 class='media-heading'>{{feed.from.name}}
+                            </h4>
+                            <div>
+                                <a href="{{feed.link}}"><img src="{{feed.picture}}"></a>
+                            </div>
+                            <div class='info'>
+                                <h5>{% if feed.message is defined %}<p>{{feed.message}}</p>{% endif %}</h5>
+                                {% if feed.description is defined %}<p>{{feed.description}}</p>{% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            {% else %}
+
+            {% endif %}
         {% endfor %}
 
         {% for feed in feeds.data %}
-            {% if feed.type == 'photo' %}
+            {% if feed.type == 'link' %}
                 {{dump(feed)}}
             {% endif %}
         {% endfor %}
