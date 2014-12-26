@@ -39,10 +39,10 @@
                         </tr>
 
                         <!-- Instagram -->
-                        <tr class='instagram {% if 'instagram' not in socials %}active{% endif %}'>
+                        <tr class='instagram {% if 'instagram' not in activeSocials %}active{% endif %}'>
                             <td class='logo'><i class='fa fa-instagram fa-lg'></i></td>
                             <td><strong>Instagram</strong></td>
-                            {% if 'instagram' in socials %}
+                            {% if 'instagram' in activeSocials %}
                                 <td><i data-social="instagram" data-action="desactivate" class="fa fa-check fa-lg brand-success open-active-modal"></i></td>
                                 <td>
                                     {% if app.session.get('instagram') is not null %}
@@ -60,10 +60,10 @@
                         </tr>
 
                         <!-- Facebook -->
-                        <tr class='facebook {% if 'facebook' not in socials %}active{% endif %}'>
+                        <tr class='facebook {% if 'facebook' not in activeSocials %}active{% endif %}'>
                             <td class='logo'><i class='fa fa-facebook fa-lg'></td>
                             <td><strong>Facebook</strong></td>
-                            {% if 'facebook' in socials %}
+                            {% if 'facebook' in activeSocials %}
                                 <td><i data-social="facebook" data-action="desactivate" class="fa fa-check fa-lg brand-success open-active-modal"></i></td>
                                 <td>
                                     {% if app.session.get('facebook') is not null and facebookUrl is defined %}
@@ -81,10 +81,10 @@
                         </tr>
 
                         <!-- Youtube -->
-                        <tr class='youtube {% if 'youtube' not in socials %}active{% endif %}'>
+                        <tr class='youtube {% if 'youtube' not in activeSocials %}active{% endif %}'>
                             <td class='logo'><i class='fa fa-youtube fa-lg'></td>
                             <td><strong>Youtube</strong></td>
-                            {% if 'youtube' in socials %}
+                            {% if 'youtube' in activeSocials %}
                                 <td><i data-social="youtube" data-action="desactivate" class="fa fa-check fa-lg brand-success open-active-modal"></i></td>
                                 <td><span class='label label-success connect' data-social='youtube'>Connecté</span></td>
                                 <td>fnk.lap@gmail.com</td>
@@ -96,10 +96,10 @@
                         </tr>
 
                         <!-- Twitter -->
-                        <tr class='twitter {% if 'twitter' not in socials %}active{% endif %}'>
+                        <tr class='twitter {% if 'twitter' not in activeSocials %}active{% endif %}'>
                             <td class='logo'><i class='fa fa-twitter fa-lg'></td>
                             <td><strong>Twitter</strong></td>
-                            {% if 'twitter' in socials %}
+                            {% if 'twitter' in activeSocials %}
                                 <td><i data-social="twitter" data-action="desactivate" class="fa fa-check fa-lg brand-success open-active-modal"></i></td>
                                 <td><span class='label label-default disconnect' data-social='twitter'>Déconnecté</span></td>
                                 <td>@FnK</td>

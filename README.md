@@ -12,7 +12,7 @@ Instagram:
   - Get number of like and comment
 
 Facebook:
-  - Get your feed (status, videos ...)
+  - Get your feed (status, videos, photos and link)
   - In progress
   
 Twitter:

@@ -22,18 +22,17 @@ class ApplicationController extends Controller
         $instagramService   = $this->get('instagram_service');
         $facebookService    = $this->get('facebook_service');
 
-        $socials = $applicationService->getSocials();
+        $activeSocials = $applicationService->getSocials();
+
         $instagramUrl = $instagramService->getAuthorizeUrl();
 
         $code   = $request->query->get('code');
-
-        if (!isset($code)) 
-        {
-           $facebookUrl  = $facebookService->getAuthorizeUrl();
-        }
-
-        $code   = $request->query->get('code');
         $social = $request->query->get('social');
+
+        if ($social != 'facebook') 
+        {
+            $facebookUrl  = $facebookService->getAuthorizeUrl();
+        }
 
         if (!empty($code))
         {
@@ -57,7 +56,7 @@ class ApplicationController extends Controller
         }
 
         return $this->render('SocialTrackerApplicationBundle:Application:settings.html.twig', array(
-            'socials' => $socials,
+            'activeSocials' => $activeSocials,
             'instagramUrl' => $instagramUrl,
             'facebookUrl'  => (isset($facebookUrl)) ? $facebookUrl : null
         ));

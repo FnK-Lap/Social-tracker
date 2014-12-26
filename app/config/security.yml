@@ -14,6 +14,7 @@ security:
     firewalls:
         main:
             pattern: ^/
+            http_basic:
             form_login:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider

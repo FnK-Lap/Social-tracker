@@ -50,6 +50,7 @@ class FacebookService
         } 
         catch(\Exception $ex) 
         {
+            die('cc');
             return array(
                 'code' => $ex->getCode(),
                 'message' => $ex->getMessage()
