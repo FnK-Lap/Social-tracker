@@ -1,7 +1,0 @@
-model: SocialTracker\Bundle\ApplicationBundle\Entity\User
-tags: [ test ] # optional parameter
-fixtures:
-    michael:
-        username: "FnK"
-        password: "H4Gpcxiz7s5clZxPg5WzRqVj9qVUDsqwjtBnAQrupPPuO+XHbnGP0NLo5vH0DSJmemnd+lLZkxCLRI8ZKRBt7w=="
-        email: fnk.lap@gmail.com
