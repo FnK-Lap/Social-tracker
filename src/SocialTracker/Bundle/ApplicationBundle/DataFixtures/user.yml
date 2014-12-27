@@ -1,9 +1,0 @@
-model: SocialTracker\Bundle\ApplicationBundle\Entity\User
-tags: [ test, dev, prod ] # optional parameter
-save_in_reverse: false # optional parameter
-persistence: orm (default)| mongodb # lets you choose if these fixtures should be saved through the orm or through mongodb.
-fixtures:
-    michael:
-        name: Michael
-        phonenumber: 8765658
-        birthday: "1989-12-12"
