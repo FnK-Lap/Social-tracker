@@ -15,6 +15,6 @@ class InstagramControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/instagram');
 
-        var_dump($client->getResponse()->getContent());
+
     }
 }

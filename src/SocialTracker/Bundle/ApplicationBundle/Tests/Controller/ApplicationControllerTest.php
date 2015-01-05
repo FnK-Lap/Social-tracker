@@ -73,4 +73,16 @@ class ApplicationControllerTest extends WebTestCase
 
         $this->assertFalse($client->getResponse()->isRedirect());
     }
+
+    public function testAddsocial()
+    {
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'FnK',
+            'PHP_AUTH_PW'   => 'qq'
+        ));
+
+        $crawler = $client->request('POST', '/social/add', array('social' => 'facebook'));
+
+        var_dump($client->getResponse()->getContent());
+    }
 }
