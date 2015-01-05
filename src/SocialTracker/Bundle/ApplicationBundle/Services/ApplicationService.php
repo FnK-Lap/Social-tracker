@@ -17,6 +17,7 @@ class ApplicationService
     {
         $user = $this->securityContext->getToken()->getUser();
         $userSocial = $user->getSocial();
+        $authorizedSocial = array('facebook', 'instagram', 'twitter', 'youtube');
 
         if (in_array($social, $userSocial)) {
             return array(
@@ -24,6 +25,13 @@ class ApplicationService
                 'message' => 'Ce réseau social est déjà activé'
             );
             
+        }
+        elseif (!in_array($social, $authorizedSocial))
+        {
+            return array(
+                'code' => 409,
+                'message' => 'Ce réseau social ne peux être ajouté'
+            );
         }
 
         array_push($userSocial, $social);

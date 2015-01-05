@@ -9,7 +9,7 @@ class InstagramControllerTest extends WebTestCase
     public function testC()
     {
         $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'FnK',
+            'PHP_AUTH_USER' => 'John',
             'PHP_AUTH_PW'   => 'qq'
         ));
 

@@ -18,13 +18,13 @@ class ApplicationControllerTest extends WebTestCase
         $this->assertTrue($form->has('_password'));
 
         $client->submit($form, array(
-            '_username' => 'FnK',
+            '_username' => 'John',
             '_password' => 'qq'
         ));
 
         $crawler = $client->followRedirect();
 
-        $this->assertEquals('FnK', $client->getContainer()->get('security.context')->getToken()->getUser()->getUsername());
+        $this->assertEquals('John', $client->getContainer()->get('security.context')->getToken()->getUser()->getUsername());
         $this->assertEquals(1, $crawler->filter('div.quick-publish')->count());
     }
 
@@ -40,7 +40,7 @@ class ApplicationControllerTest extends WebTestCase
         $this->assertTrue($form->has('_password'));
 
         $client->submit($form, array(
-            '_username' => 'FnsaK',
+            '_username' => 'BadUsername',
             '_password' => 'qq'
         ));
 
@@ -65,7 +65,7 @@ class ApplicationControllerTest extends WebTestCase
     public function testLoggedSuccess()
     {
         $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'FnK',
+            'PHP_AUTH_USER' => 'John',
             'PHP_AUTH_PW'   => 'qq'
         ));
 
@@ -74,15 +74,67 @@ class ApplicationControllerTest extends WebTestCase
         $this->assertFalse($client->getResponse()->isRedirect());
     }
 
-    public function testAddsocial()
+    public function testAddSocial()
     {
         $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'FnK',
+            'PHP_AUTH_USER' => 'John',
             'PHP_AUTH_PW'   => 'qq'
         ));
 
         $crawler = $client->request('POST', '/social/add', array('social' => 'facebook'));
 
-        var_dump($client->getResponse()->getContent());
+        $socials = $client->getContainer()->get('security.context')->getToken()->getUser()->getSocial();
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertTrue(in_array('facebook', $socials));
+    }
+
+    public function testAddSocialFail()
+    {
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'John',
+            'PHP_AUTH_PW'   => 'qq'
+        ));
+
+        $crawler = $client->request('POST', '/social/add', array('social' => 'BadSocial'));
+
+        $socials = $client->getContainer()->get('security.context')->getToken()->getUser()->getSocial();
+
+        $this->assertFalse($client->getResponse()->isSuccessful());
+    }
+
+    /**
+     * @depends testAddSocial
+     */
+    public function testRemoveSocial()
+    {
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'John',
+            'PHP_AUTH_PW'   => 'qq'
+        ));
+
+        $crawler = $client->request('POST', '/social/remove', array('social' => 'facebook'));
+
+        $socials = $client->getContainer()->get('security.context')->getToken()->getUser()->getSocial();
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertTrue(!in_array('facebook', $socials));
+    }
+
+    /**
+     * @depends testRemoveSocial
+     */
+    public function testRemoveSocialFail()
+    {
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'John',
+            'PHP_AUTH_PW'   => 'qq'
+        ));
+
+        $crawler = $client->request('POST', '/social/remove', array('social' => 'facebook'));
+
+        $socials = $client->getContainer()->get('security.context')->getToken()->getUser()->getSocial();
+
+        $this->assertFalse($client->getResponse()->isSuccessful());
     }
 }

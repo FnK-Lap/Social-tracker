@@ -8,6 +8,6 @@ before_script:
   - composer install --dev
   - php app/console doctrine:database:create
   - php app/console doctrine:schema:update --force
-  - php app/console fos:user:create FnK fnk.lap@gmail.com qq
+  - php app/console fos:user:create John john.doe@gmail.com qq
 
 script: phpunit -c app/

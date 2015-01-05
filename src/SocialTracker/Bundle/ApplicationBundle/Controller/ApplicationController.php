@@ -84,7 +84,7 @@ class ApplicationController extends Controller
             );
         }
         
-        return new Response($social);
+        return new Response(json_encode($response), $response['code']);
     }
 
     public function ajaxRemoveSocialAction(Request $request)
@@ -116,6 +116,6 @@ class ApplicationController extends Controller
             );
         }
 
-        return new Response($social);
+        return new Response(json_encode($response), $response['code']);
     }
 }
