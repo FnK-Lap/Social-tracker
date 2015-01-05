@@ -1,5 +1,7 @@
 Social-tracker
 ==============
+[![Build Status](https://travis-ci.org/FnK-Lap/Social-tracker.svg?branch=develop)](https://travis-ci.org/FnK-Lap/Social-tracker)
+
 
 A school project for Sup'Internet.
 
