@@ -45,11 +45,16 @@ var Instagram = function (ajax){
             };
         }
 
+        function refreshMedia() {
+            ajax.send('/instagram/' + mediaId + "/refresh", {}, true, "GET", function(){location.reload()});
+        }
+
 
     return{
         success: success,
         loadMore: loadMore,
         successLoadMore: successLoadMore,
-        likeDislike: likeDislike
+        likeDislike: likeDislike,
+        refreshMedia: refreshMedia
     }
 }

@@ -5,20 +5,20 @@
 {% block content %}
     {% if userFeed is defined %}
         <ul class='grid cs-style-3'>
-            {% for post in userFeed.data %}
+            {% for post in userFeed %}
                 <li>
                     <figure>
-                        {% if post.type == 'video' %}
+                        {% if post.content.type == 'video' %}
                             <i class='fa fa-video-camera fa-border fa-lg'></i>
                         {% endif %}
-                        {% if post.user_has_liked == true %}
+                        {% if post.content.user_has_liked == true %}
                             <i class='fa fa-heart fa-lg'></i>
                         {% endif %}
-                        <a href="/instagram/{{post.id}}"><img src="{{post.images.low_resolution.url}}"></a>
+                        <a href="/instagram/{{post.content.id}}"><img src="{{post.content.images.low_resolution.url}}" alt='{{post.content.user.username}}'></a>
                         <figcaption>
-                            <h5>{{post.user.username}}</h5>
-                            {% if post.caption.text is defined %}
-                                <span>{{post.caption.text}}</span>
+                            <h5>{{post.content.user.username}}</h5>
+                            {% if post.content.caption.text is defined %}
+                                <span>{{post.content.caption.text}}</span>
                             {% endif %}
                         </figcaption>
                     </figure>

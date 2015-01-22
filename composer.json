@@ -21,7 +21,7 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "misd/guzzle-bundle": "~1.0",
         "facebook/php-sdk-v4" : "4.0.*",
-        "khepin/yaml-fixtures-bundle": "~0.8.1"
+        "igorw/get-in": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

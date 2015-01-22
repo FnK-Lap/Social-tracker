@@ -6,6 +6,8 @@
 
 .brand-success { color: #5cb85c; }
 
+.brand-default { color: #7f8c8d; }
+
 .form-errors ul { margin-bottom: 0; }
 .form-errors li { list-style-type: none; color: #d9534f; }
 
@@ -47,6 +49,7 @@
 .sidebar-nav .facebook:hover i { color: #3b5998; }
 .sidebar-nav .youtube:hover i { color: #bb0000; }
 .sidebar-nav .twitter:hover i { color: #00aced; }
+.sidebar-nav .logout:hover i { color: #bb0000; }
 
 #wrapper { padding-left: 65px; -webkit-transition: all .4s ease 0s; transition: all .4s ease 0s; height: 100%; }
 
@@ -139,6 +142,8 @@
 
 .media-caption { padding-top: 30px; }
 
+@media screen and (max-width: 992px) { .instagram-media-refresh .badge { background-color: #517fa4; width: 90%; margin-left: 5%; margin-bottom: 20px; cursor: pointer; } }
+@media screen and (min-width: 992px) { .instagram-media-refresh .badge { background-color: #517fa4; position: fixed; right: 5%; top: 10%; z-index: 99; cursor: pointer; } }
 .facebook-feed { padding-top: 10px; padding-bottom: 10px; }
 
 .facebook-video .media-body img, .facebook-video .media-body embed { display: block; cursor: pointer; }

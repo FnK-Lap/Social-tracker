@@ -7,7 +7,7 @@
     <h3>S'inscrire</h3>
     <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal" role="form">
         <div class="form-group">
-            {{ form_label(form.username, 'Pseudo', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_label(form.username, 'Pseudo : ', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
             <div class="col-sm-9">
                 {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Pseudo'}}) }}
             </div>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="form-group">
-            {{ form_label(form.email, 'Email', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_label(form.email, 'Email : ', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
             <div class="col-sm-9">
                 {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
             </div>

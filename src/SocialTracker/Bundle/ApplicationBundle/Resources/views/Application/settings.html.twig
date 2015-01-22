@@ -39,26 +39,26 @@
                         </tr>
 
                         <!-- Instagram -->
-                        <tr class='instagram {% if 'instagram' not in activeSocials %}active{% endif %}'>
+                        <tr class='instagram'>
                             <td class='logo'><i class='fa fa-instagram fa-lg'></i></td>
                             <td><strong>Instagram</strong></td>
-                            {% if 'instagram' in activeSocials %}
-                                <td><i data-social="instagram" data-action="desactivate" class="fa fa-check fa-lg brand-success open-active-modal"></i></td>
+                            {% if userSettings.instagram['access_token'] is not null %}
+                                <td><i data-social="instagram" data-action="desactivate" class="fa fa-times fa-lg brand-danger open-active-modal"></i></td>
                                 <td>
-                                    {% if app.session.get('instagram') is not null %}
+                                    {% if userSettings.instagram["access_token"] is not null %}
                                         <span class='label label-success connect' data-social='instagram'>Connecté</span>
                                     {% else %}
                                         <span class='label label-default disconnect' data-social='instagram'><a href="{{instagramUrl}}">Déconnecté</a></span>
                                     {% endif %}
                                 </td>
-                                <td>{% if app.session.get('instagram') is not null %}{{app.session.get('instagram').username}}{% endif %}</td>
+                                <td>{{userSettings.instagram.username}}</td>
                             {% else %}
-                                <td><i data-social="instagram" data-action="activate" class="fa fa-times fa-lg brand-danger open-active-modal"></i></td>
-                                <td></td>
+                                <td><i data-social="instagram" data-action="activate" class="fa fa-times fa-lg brand-default open-active-modal"></i></td>
+                                <td><span class='label label-default disconnect' data-social='instagram'><a href="{{instagramUrl}}">Déconnecté</a></span></td>
                                 <td></td>
                             {% endif %}
                         </tr>
-
+                        {#
                         <!-- Facebook -->
                         <tr class='facebook {% if 'facebook' not in activeSocials %}active{% endif %}'>
                             <td class='logo'><i class='fa fa-facebook fa-lg'></td>
@@ -109,7 +109,7 @@
                                 <td></td>
                             {% endif %}                            
                         </tr>
-                        
+                        #}
                     </table>
                 </div>
             </div>

@@ -40,3 +40,28 @@
 .media-caption{
     padding-top:30px;
 }
+
+@media screen and (max-width: 992px) {
+    .instagram-media-refresh{
+        .badge{
+            background-color: $instagram;
+            width: 90%;
+            margin-left: 5%;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .instagram-media-refresh{
+        .badge{
+            background-color: $instagram;
+            position: fixed;
+            right: 5%;
+            top: 10%;
+            z-index: 99;
+            cursor: pointer;
+        }
+    }
+}
