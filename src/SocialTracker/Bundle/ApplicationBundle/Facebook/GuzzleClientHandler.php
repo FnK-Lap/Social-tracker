@@ -5,8 +5,8 @@ namespace SocialTracker\Bundle\ApplicationBundle\Facebook;
 use Facebook\FacebookSDKException;
 use Facebook\HttpClients\FacebookHttpable;
 use Guzzle\Service\Client;
-// use GuzzleHttp\Exception\AdapterException;
-// use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\AdapterException;
+use GuzzleHttp\Exception\RequestException;
 
 class GuzzleClientHandler implements FacebookHttpable
 {
@@ -49,14 +49,14 @@ class GuzzleClientHandler implements FacebookHttpable
             $request->setHeader($k, $v);
         }
 
-        // try {
+        try {
             $rawResponse = self::$guzzleClient->send($request);
-        // } catch (RequestException $e) {
-        //     if ($e->getPrevious() instanceof AdapterException) {
-        //         throw new FacebookSDKException($e->getMessage(), $e->getCode());
-        //     }
-        //     $rawResponse = $e->getResponse();
-        // }
+        } catch (RequestException $e) {
+            if ($e->getPrevious() instanceof AdapterException) {
+                throw new FacebookSDKException($e->getMessage(), $e->getCode());
+            }
+            $rawResponse = $e->getResponse();
+        }
 
         $this->responseHttpStatusCode = $rawResponse->getStatusCode();
         $this->responseHeaders = $rawResponse->getHeaders();

@@ -1,5 +1,6 @@
 SocialTracker\Bundle\ApplicationBundle\Entity\User:
     type: entity
+    repositoryClass: SocialTracker\Bundle\ApplicationBundle\Entity\UserRepository
     table: null
     id:
         id:
@@ -8,7 +9,18 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
             generator:
                 strategy: AUTO
     fields:
-        social:
-            type: simple_array
+        instagram_access_token:
+            type: string
             nullable: true
+        instagram_username:
+            type: string
+            nullable: true
+        instagram_max_id:
+            type: string
+            nullable: true
+
+    oneToMany:
+        instagram_posts:
+            targetEntity: Instagram
+            mappedBy: user
     lifecycleCallbacks: {  }
