@@ -1,4 +1,42 @@
+parameters:
+    facebook_redirect_url: 'http://social-tracker.dev/settings?social=facebook'
+
 services:
+    # Instagram
+    instagram:
+        class: SocialTracker\Bundle\ApplicationBundle\Instagram\Instagram
+        arguments:
+            - @guzzle.client
+            - @doctrine.orm.entity_manager
+
+    instagram.authentication_helper:
+        class: SocialTracker\Bundle\ApplicationBundle\Instagram\AuthenticationHelper
+        arguments:
+            - %instagram_client_id%
+            - %instagram_secret%
+            - @guzzle.client
+            - @router
+
+    # Facebook
+    facebook.login_helper:
+        class: SocialTracker\Bundle\ApplicationBundle\Facebook\RedirectLoginHelper
+        arguments:
+            - @session
+            - %facebook_redirect_url%
+            - %facebook_client_id%
+            - %facebook_secret%
+
+    application:
+        class: SocialTracker\Bundle\ApplicationBundle\Application\Application
+        arguments: ~
+
+
+
+
+
+
+
+
     application_service:
        class: SocialTracker\Bundle\ApplicationBundle\Services\ApplicationService
        arguments: [@doctrine.orm.entity_manager, @security.context]
@@ -6,5 +44,11 @@ services:
        class: SocialTracker\Bundle\ApplicationBundle\Services\InstagramService
        arguments: [%instagram_client_id%, %instagram_secret%, @guzzle.client, @session]
     facebook_service:
-       class: SocialTracker\Bundle\ApplicationBundle\Services\FacebookService
-       arguments: [%facebook_client_id%, %facebook_secret%, @guzzle.client, @session]
+        class: SocialTracker\Bundle\ApplicationBundle\Services\FacebookService
+        arguments:
+            - %facebook_client_id%
+            - %facebook_secret%
+            - @guzzle.client
+            - @session
+            - @facebook.login_helper
+

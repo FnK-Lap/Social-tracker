@@ -2,8 +2,8 @@
 
 namespace SocialTracker\Bundle\ApplicationBundle\Controller;
 
+use SocialTracker\Bundle\ApplicationBundle\Entity\Instagram;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,32 +11,75 @@ class InstagramController extends Controller
 {
     public function homeAction()
     {
-        $instagramService = $this->get('instagram_service');
+        $instagram = $this->get('instagram');
+        $user = $this->get('security.context')->getToken()->getUser();
 
-        if ($this->get('session')->get('instagram') === null) 
+        if ($user->getInstagramAccessToken() === null) 
         {
             return $this->render('SocialTrackerApplicationBundle:Instagram:home.html.twig', array());
         }
 
-        $userFeed = $instagramService->getUserFeed(1);
+        $em = $this->getDoctrine()->getManager();
 
-        $response = new Response();
-        $response->setEtag(md5(json_encode($userFeed['data'][0]['images'])));
+        $userFeed = $em->getRepository('SocialTrackerApplicationBundle:Instagram')->findFeedByUser($user);
 
-        if ($response->isNotModified($this->getRequest())) {
-            // Retourne immédiatement un objet 304 Response
-            return $response;
-        } else {
-            // faire plus de travail ici - comme récupérer plus de données
-            $userFeed = $instagramService->getUserFeed();
-
-            // ou formatter un template avec la $response déjà existante
-            return $this->render('SocialTrackerApplicationBundle:Instagram:home.html.twig', array(
-                'userFeed' => $userFeed
-            ), $response);
+        foreach ($userFeed as &$feed) {
+            $feed['content'] = json_decode($feed['content']);
         }
 
+        return $this->render('SocialTrackerApplicationBundle:Instagram:home.html.twig', array(
+            'userFeed' => $userFeed
+        ));
     }
+
+    public function refreshMediaAction(Instagram $media)
+    {
+        $instagram = $this->get('instagram');
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $newMedia = $instagram->refreshMedia($user->getInstagramAccessToken(), $media);
+
+        return new Response(json_encode($newMedia));
+
+    }
+
+    public function ajaxLikeMediaAction(Instagram $media)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $instagram = $this->get('instagram');
+
+        $result = $instagram->likeMedia($user->getInstagramAccessToken(), $media->getInstagramId());
+        $newMedia = $instagram->refreshMedia($user->getInstagramAccessToken(), $media);
+
+        return new Response(json_encode($newMedia));
+    }
+
+    public function ajaxDislikeMediaAction(Instagram $media)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $instagram = $this->get('instagram');
+
+        $result = $instagram->dislikeMedia($user->getInstagramAccessToken(), $media->getInstagramId());
+        $newMedia = $instagram->refreshMedia($user->getInstagramAccessToken(), $media);
+
+        return new Response(json_encode($newMedia));
+    }
+
+    public function showMediaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $media = $em->getRepository('SocialTrackerApplicationBundle:Instagram')->findOneBy(array('instagram_id' => $id));
+        $media->setContent(json_decode($media->getContent()));
+
+        return $this->render('SocialTrackerApplicationBundle:Instagram:showMedia.html.twig', array(
+            'media' => $media
+        ));
+    }
+
+
+
+
 
     public function ajaxUserFeedAction($maxId)
     {
@@ -44,33 +87,5 @@ class InstagramController extends Controller
         $userFeed = $instagramService->getUserFeed(null, $maxId);
 
         return new Response(json_encode($userFeed));
-    }
-
-    public function showMediaAction($id)
-    {
-        $instagramService = $this->get('instagram_service');
-        $media = $instagramService->getMedia($id);
-
-        return $this->render('SocialTrackerApplicationBundle:Instagram:showMedia.html.twig', array(
-            'media' => $media
-        ));
-    }
-
-    public function ajaxLikeMediaAction($id)
-    {
-        $instagramService = $this->get('instagram_service');
-
-        $result = $instagramService->likeMedia($id);
-
-        return new Response(json_encode($result));
-    }
-
-    public function ajaxDislikeMediaAction($id)
-    {
-        $instagramService = $this->get('instagram_service');
-
-        $result = $instagramService->dislikeMedia($id);
-
-        return new Response(json_encode($result));
     }
 }
