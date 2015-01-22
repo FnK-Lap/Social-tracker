@@ -4,9 +4,11 @@ namespace SocialTracker\Bundle\ApplicationBundle\Services;
 
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookRequest;
 use Facebook\FacebookRequestException;
 use Facebook\GraphUser;
-use Facebook\FacebookRequest;
+use Facebook\HttpClients\FacebookGuzzleHttpClient;
+use SocialTracker\Bundle\ApplicationBundle\Facebook\GuzzleClientHandler;
 
 class FacebookService
 {
@@ -14,32 +16,53 @@ class FacebookService
     private $clientSecret;
     private $client;
     private $session;
+    private $loginHelper;
 
-    public function __construct($clientId, $clientSecret, $client, $session)
+    public function __construct($clientId, $clientSecret, $guzzle, $session, $loginHelper)
     {
         $this->clientId     = $clientId;
         $this->clientSecret = $clientSecret;
-        $this->client   = $client;
+        $this->guzzle   = $guzzle;
         $this->session  = $session;
+        $this->loginHelper = $loginHelper;
         FacebookSession::setDefaultApplication($clientId, $clientSecret);
+    }
+
+    private function createRequest(FacebookSession $facebookSession, $method, $path, $parameters = null, $version = null, $etag = null)
+    {
+        $request = new FacebookRequest($facebookSession, $method, $path, $parameters, $version, $etag);
+        $clientHandler = new GuzzleClientHandler($this->guzzle);
+        $request::setHttpClientHandler($clientHandler);
+
+        return $request;
+    }
+
+    private function getFacebookSession()
+    {
+        if ($this->session->has('facebook')) {
+            $facebook = $this->session->get('facebook');
+            if (isset($facebook['session'])) {
+                return $facebook['session'];
+            }
+        }
+
+        throw new \Exception('Boom!');
     }
 
     public function getAuthorizeUrl()
     {
-        $helper = new FacebookRedirectLoginHelper('http://social-tracker.dev/settings?social=facebook');
         $param = array(
             'scope' => 'read_stream, publish_actions, user_friends'
         );
-        return $helper->getLoginUrl($param);
+
+        return $this->loginHelper->getLoginUrl($param);
     }
 
     public function getAccessToken()
     {
-        $helper = new FacebookRedirectLoginHelper('http://social-tracker.dev/settings?social=facebook');
-
         try 
         {
-            $session = $helper->getSessionFromRedirect();
+            $session = $this->loginHelper->getSessionFromRedirect();
         } 
         catch(FacebookRequestException $ex) 
         {
@@ -50,7 +73,6 @@ class FacebookService
         } 
         catch(\Exception $ex) 
         {
-            die('cc');
             return array(
                 'code' => $ex->getCode(),
                 'message' => $ex->getMessage()
@@ -60,7 +82,7 @@ class FacebookService
         if ($session) {
             try 
             {
-                $user_profile = (new FacebookRequest($session, 'GET', '/me'))->execute()->getGraphObject(GraphUser::className());
+                $user_profile = $this->createRequest($session, 'GET', '/me')->execute()->getGraphObject(GraphUser::className());
                 $this->session->set('facebook', array(
                     'session' => $session,
                     'username' => $user_profile->getName()
@@ -127,13 +149,13 @@ class FacebookService
 
     public function publishStatut($message)
     {
-        $request = new FacebookRequest(
-        $this->session->get('facebook')['session'],
-          'POST',
-          '/me/feed',
-          array (
-            'message' => $message,
-          )
+        $request = $this->createRequest(
+            $this->session->get('facebook')['session'],
+            'POST',
+            '/me/feed',
+            array(
+                'message' => $message,
+            )
         );
 
         try {

@@ -18,104 +18,84 @@ class ApplicationController extends Controller
 
     public function settingsAction(Request $request)
     {
-        $applicationService = $this->get('application_service');
-        $instagramService   = $this->get('instagram_service');
-        $facebookService    = $this->get('facebook_service');
+        $instagramUrl   =   $this->get('instagram.authentication_helper')->getAuthorizeUrl();
+        $application    =   $this->get('application');
+        $user           =   $this->get('security.context')->getToken()->getUser();
 
-        $activeSocials = $applicationService->getSocials();
+        $em = $this->getDoctrine()->getManager();
+        $userSettings = $em->getRepository('SocialTrackerApplicationBundle:User')->findSettingsByUser($user->getId());
 
-        $instagramUrl = $instagramService->getAuthorizeUrl();
 
-        $code   = $request->query->get('code');
-        $social = $request->query->get('social');
+        // $instagramService   = $this->get('instagram_service');
+        // $facebookService    = $this->get('facebook_service');
 
-        if ($social != 'facebook') 
-        {
-            $facebookUrl  = $facebookService->getAuthorizeUrl();
-        }
 
-        if (!empty($code))
-        {
-            if ($social == 'instagram') 
-            {
-                $instagramService->getAccessToken($code);
-            }
-            elseif ($social == 'facebook') 
-            {
-                $result = $facebookService->getAccessToken();
-                if ($result['code'] != 200) 
-                {
-                    $session = $this->get('session');
-                    $session->getFlashBag()->add(
-                        'error',
-                        $result['message']
-                    );
-                }
-            }
-            
-        }
+        // $instagramUrl = $instagramService->getAuthorizeUrl();
+
+        // $code   = $request->query->get('code');
+        // $social = $request->query->get('social');
+
+        // if ($social != 'facebook') 
+        // {
+            // $facebookUrl  = $facebookService->getAuthorizeUrl();
+        // }
+
+        // if (!empty($code))
+        // {
+            // if ($social == 'instagram') 
+            // {
+                // $instagramService->getAccessToken($code);
+            // }
+            // elseif ($social == 'facebook') 
+            // {
+                // $result = $facebookService->getAccessToken();
+                // if ($result['code'] != 200) 
+                // {
+                    // $session = $this->get('session');
+                    // $session->getFlashBag()->add(
+                        // 'error',
+                        // $result['message']
+                    // );
+                // }
+            // }   
+        // }
 
         return $this->render('SocialTrackerApplicationBundle:Application:settings.html.twig', array(
-            'activeSocials' => $activeSocials,
+            'userSettings'  => $userSettings,
+            // 'activeSocials' => $activeSocials,
             'instagramUrl' => $instagramUrl,
             'facebookUrl'  => (isset($facebookUrl)) ? $facebookUrl : null
         ));
     }
 
-    public function ajaxAddSocialAction(Request $request)
+    public function instagramCallbackAction(Request $request)
     {
-        $social = $request->request->get('social');
+        $em       = $this->getDoctrine()->getManager();
+        $code     = $request->query->get('code');
+        $helper   = $this->get('instagram.authentication_helper');
+        $response = $helper->exchangeAuthorizationCode($code);
 
-        $applicationService = $this->get('application_service');
-        $response = $applicationService->addSocial($social);
+        // Store access token in DB
+        $user = $this->get('security.context')->getToken()->getUser();
+        $user->setInstagramAccessToken($response->accessToken);
+        $user->setInstagramUsername($response->username);
+        $em->persist($user);
+        $em->flush();
 
-        if ($response['code'] == 409) 
-        {
-            $this->get('session')->getFlashBag()->add(
-                'error',
-                $response['message']
-            );
-        }
-        else
-        {
-            $this->get('session')->getFlashBag()->add(
-                'success',
-                $response['message']
-            );
-        }
-        
-        return new Response(json_encode($response), $response['code']);
+        return $this->redirect($this->generateUrl('application_settings'));
     }
 
-    public function ajaxRemoveSocialAction(Request $request)
+    public function disableSocialAction($social)
     {
-        $social = $request->request->get('social');
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
 
-        $session = $this->get('session');
+        $setterAccessToken = "set" . ucfirst($social) . "AccessToken";
+        $setterUsername = "set" . ucfirst($social) . "Username";
+        $user->$setterAccessToken(null);
+        $user->$setterUsername(null);
 
-        $applicationService = $this->get('application_service');
-        $response = $applicationService->removeSocial($social);
-
-        if ($response['code'] == 409) 
-        {
-            $session->getFlashBag()->add(
-                'error',
-                $response['message']
-            );
-        }
-        else
-        {
-            if ($session->has($social))
-            {
-                $session->remove($social);
-            }
-
-            $session->getFlashBag()->add(
-                'success',
-                $response['message']
-            );
-        }
-
-        return new Response(json_encode($response), $response['code']);
+        $em->persist($user);
+        $em->flush();
     }
 }

@@ -3,9 +3,25 @@ application_home:
     path:   /
     defaults:  { _controller: SocialTrackerApplicationBundle:Application:home }
 
+logout:
+    path: /logout
+
+register:
+    path: /register
+
+disable_social:
+    path:   /social/{social}/disable
+    defaults: { _controller: SocialTrackerApplicationBundle:Application:disableSocial }
+    requirements:
+        social: facebook|instagram
+
 application_settings:
     path:   /settings
     defaults: { _controller: SocialTrackerApplicationBundle:Application:settings }
+
+settings_instagram_callback:
+    path:   /settings/instagram_callback
+    defaults: { _controller: SocialTrackerApplicationBundle:Application:instagramCallback }
 
 application_add_social:
     path:   /social/add
@@ -19,6 +35,10 @@ application_remove_social:
 instagram_home:
     path:   /instagram
     defaults: { _controller: SocialTrackerApplicationBundle:Instagram:home }
+
+instagram_refresh_media:
+    path:   /instagram/{media}/refresh
+    defaults: { _controller: SocialTrackerApplicationBundle:Instagram:refreshMedia }
 
 instagram_user_feed:
     path:   /instagram/feed/{maxId}

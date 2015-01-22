@@ -26,13 +26,6 @@ services:
             - %facebook_client_id%
             - %facebook_secret%
 
-    application:
-        class: SocialTracker\Bundle\ApplicationBundle\Application\Application
-        arguments: ~
-
-
-
-
 
 
 
