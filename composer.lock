@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2a370d51cde4d08708d1490c76c044a9",
+    "hash": "f99d60aef6d2043918570a2647047d38",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -820,50 +820,6 @@
                 "web service"
             ],
             "time": "2014-08-11 04:32:36"
-        },
-        {
-            "name": "heroku/heroku-buildpack-php",
-            "version": "v57",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/heroku/heroku-buildpack-php.git",
-                "reference": "166ad317a307082d037a6d201ddb602f3295af9a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/166ad317a307082d037a6d201ddb602f3295af9a",
-                "reference": "166ad317a307082d037a6d201ddb602f3295af9a",
-                "shasum": ""
-            },
-            "bin": [
-                "bin/heroku-hhvm-apache2",
-                "bin/heroku-hhvm-nginx",
-                "bin/heroku-php-apache2",
-                "bin/heroku-php-nginx"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David Zuelke",
-                    "email": "dz@heroku.com"
-                }
-            ],
-            "description": "Toolkit for starting a PHP application locally, with or without foreman, using the same config for PHP/HHVM and Apache2/Nginx as on Heroku",
-            "homepage": "http://github.com/heroku/heroku-buildpack-php",
-            "keywords": [
-                "apache",
-                "apache2",
-                "foreman",
-                "heroku",
-                "hhvm",
-                "nginx",
-                "php"
-            ],
-            "time": "2015-01-19 23:21:04"
         },
         {
             "name": "igorw/get-in",
@@ -1994,6 +1950,50 @@
                 "persistence"
             ],
             "time": "2013-09-05 11:23:37"
+        },
+        {
+            "name": "heroku/heroku-buildpack-php",
+            "version": "v57",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/heroku/heroku-buildpack-php.git",
+                "reference": "166ad317a307082d037a6d201ddb602f3295af9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/166ad317a307082d037a6d201ddb602f3295af9a",
+                "reference": "166ad317a307082d037a6d201ddb602f3295af9a",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/heroku-hhvm-apache2",
+                "bin/heroku-hhvm-nginx",
+                "bin/heroku-php-apache2",
+                "bin/heroku-php-nginx"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Zuelke",
+                    "email": "dz@heroku.com"
+                }
+            ],
+            "description": "Toolkit for starting a PHP application locally, with or without foreman, using the same config for PHP/HHVM and Apache2/Nginx as on Heroku",
+            "homepage": "http://github.com/heroku/heroku-buildpack-php",
+            "keywords": [
+                "apache",
+                "apache2",
+                "foreman",
+                "heroku",
+                "hhvm",
+                "nginx",
+                "php"
+            ],
+            "time": "2015-01-19 23:21:04"
         },
         {
             "name": "khepin/yaml-fixtures-bundle",
