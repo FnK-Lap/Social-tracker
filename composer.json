@@ -22,7 +22,6 @@
         "misd/guzzle-bundle": "~1.0",
         "facebook/php-sdk-v4" : "4.0.*",
         "igorw/get-in": "~1.0",
-        "heroku/heroku-buildpack-php": "~57.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
