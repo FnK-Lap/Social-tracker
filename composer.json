@@ -24,8 +24,7 @@
         "igorw/get-in": "~1.0"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3",
-        "heroku/heroku-buildpack-php": "~57.0"
+        "sensio/generator-bundle": "~2.3"
     },
     "scripts": {
         "post-root-package-install": [
@@ -59,11 +58,6 @@
         },
         "branch-alias": {
             "dev-master": "2.5-dev"
-        },
-        "heroku": {
-            "compile": [
-                "chmod 777 /app/app/cache"
-            ]
         }
     }
 }
