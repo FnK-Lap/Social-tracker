@@ -19,6 +19,15 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
             type: string
             nullable: true
 
+        facebook_access_token:
+            type: text
+            nullable: true
+        facebook_username:
+            type: string
+            length: 255
+            nullable: true
+
+
     oneToMany:
         instagram_posts:
             targetEntity: Instagram

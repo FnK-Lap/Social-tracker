@@ -11,13 +11,18 @@ class UserRepository extends EntityRepository
         $result = $this->createQueryBuilder('users')
                        ->where('users.id = :id')
                        ->setParameter('id', $userId)
-                       ->select('users.instagram_access_token, users.instagram_username')
+                       ->select('users.instagram_access_token, users.instagram_username, users.facebook_access_token, users.facebook_username')
                        ->getQuery()
                        ->getArrayResult();
 
         $settings['instagram'] = array(
             'access_token' => $result[0]['instagram_access_token'],
             'username'     => $result[0]['instagram_username']
+        );
+
+        $settings['facebook'] = array(
+            'access_token' => $result[0]['facebook_access_token'],
+            'username'     => $result[0]['facebook_username']
         ); 
 
         return $settings;

@@ -156,4 +156,88 @@ class User extends BaseUser
     {
         return $this->instagram_username;
     }
+    /**
+     * @var string
+     */
+    private $facebook_session;
+
+    /**
+     * @var string
+     */
+    private $facebook_username;
+
+
+    /**
+     * Set facebook_session
+     *
+     * @param string $facebookSession
+     * @return User
+     */
+    public function setFacebookSession($facebookSession)
+    {
+        $this->facebook_session = $facebookSession;
+
+        return $this;
+    }
+
+    /**
+     * Get facebook_session
+     *
+     * @return string 
+     */
+    public function getFacebookSession()
+    {
+        return $this->facebook_session;
+    }
+
+    /**
+     * Set facebook_username
+     *
+     * @param string $facebookUsername
+     * @return User
+     */
+    public function setFacebookUsername($facebookUsername)
+    {
+        $this->facebook_username = $facebookUsername;
+
+        return $this;
+    }
+
+    /**
+     * Get facebook_username
+     *
+     * @return string 
+     */
+    public function getFacebookUsername()
+    {
+        return $this->facebook_username;
+    }
+    /**
+     * @var string
+     */
+    private $facebook_access_token;
+
+
+    /**
+     * Set facebook_access_token
+     *
+     * @param string $facebookAccessToken
+     * @return User
+     */
+    public function setFacebookAccessToken($facebookAccessToken)
+    {
+        $this->facebook_access_token = $facebookAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * Get facebook_access_token
+     *
+     * @return string 
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebook_access_token;
+    }
 }

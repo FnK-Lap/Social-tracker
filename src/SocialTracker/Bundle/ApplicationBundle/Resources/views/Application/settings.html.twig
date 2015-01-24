@@ -45,11 +45,7 @@
                             {% if userSettings.instagram['access_token'] is not null %}
                                 <td><i data-social="instagram" data-action="desactivate" class="fa fa-times fa-lg brand-danger open-active-modal"></i></td>
                                 <td>
-                                    {% if userSettings.instagram["access_token"] is not null %}
-                                        <span class='label label-success connect' data-social='instagram'>Connecté</span>
-                                    {% else %}
-                                        <span class='label label-default disconnect' data-social='instagram'><a href="{{instagramUrl}}">Déconnecté</a></span>
-                                    {% endif %}
+                                    <span class='label label-success connect' data-social='instagram'>Connecté</span>
                                 </td>
                                 <td>{{userSettings.instagram.username}}</td>
                             {% else %}
@@ -58,28 +54,23 @@
                                 <td></td>
                             {% endif %}
                         </tr>
-                        {#
                         <!-- Facebook -->
-                        <tr class='facebook {% if 'facebook' not in activeSocials %}active{% endif %}'>
+                        <tr class='facebook'>
                             <td class='logo'><i class='fa fa-facebook fa-lg'></td>
                             <td><strong>Facebook</strong></td>
-                            {% if 'facebook' in activeSocials %}
-                                <td><i data-social="facebook" data-action="desactivate" class="fa fa-check fa-lg brand-success open-active-modal"></i></td>
+                            {% if userSettings.facebook['access_token'] is not null %}
+                                <td><i data-social="facebook" data-action="desactivate" class="fa fa-times fa-lg brand-danger open-active-modal"></i></td>
                                 <td>
-                                    {% if app.session.get('facebook') is not null and facebookUrl is defined %}
-                                        <span class='label label-success connect' data-social='facebook'>Connecté</span>
-                                    {% else %}
-                                        <span class='label label-default disconnect' data-social='facebook'><a href="{{facebookUrl}}">Déconnecté</a></span>
-                                    {% endif %}
+                                    <span class='label label-success connect' data-social='facebook'>Connecté</span>
                                 </td>
-                                <td>{% if app.session.get('facebook') is not null %}{{app.session.get('facebook').username}}{% endif %}</td>
+                                <td>{{userSettings.facebook.username}}</td>
                             {% else %}
-                                <td><i data-social="facebook" data-action="activate" class="fa fa-times fa-lg brand-danger open-active-modal"></i></td>
-                                <td></td>
+                                <td><i data-social="instagram" data-action="activate" class="fa fa-times fa-lg brand-default open-active-modal"></i></td>
+                                <td><span class='label label-default disconnect' data-social='instagram'><a href="{{facebookUrl}}">Déconnecté</a></span></td>
                                 <td></td>
                             {% endif %}
                         </tr>
-
+                        {#
                         <!-- Youtube -->
                         <tr class='youtube {% if 'youtube' not in activeSocials %}active{% endif %}'>
                             <td class='logo'><i class='fa fa-youtube fa-lg'></td>

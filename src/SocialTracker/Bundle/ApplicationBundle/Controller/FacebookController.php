@@ -13,33 +13,34 @@ class FacebookController extends Controller
     public function homeAction()
     {
         $facebookService = $this->get('facebook_service');
-
-        if ($this->get('session')->get('facebook') === null) 
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        if ($user->getFacebookAccessToken() === null) 
         {
             return $this->render('SocialTrackerApplicationBundle:Facebook:home.html.twig', array());
         }
-        
-        $userFeed = $facebookService->getUserFeed(array('limit' => 1));
 
-        $feeds      = json_decode($userFeed[0]->body);
-        $userCovers = json_decode($userFeed[1]->body); 
+        // $userFeed = $facebookService->getUserFeed(array('limit' => 1));
 
-        $response = new Response();
-        $response->setEtag(md5(json_encode($feeds->data[0]->id)));
+        // $feeds      = json_decode($userFeed[0]->body);
+        // $userCovers = json_decode($userFeed[1]->body); 
 
-        if ($response->isNotModified($this->getRequest())) {
-            return $response;
-        } else {
-            $userFeed = $facebookService->getUserFeed();
+        // $response = new Response();
+        // $response->setEtag(md5(json_encode($feeds->data[0]->id)));
 
-            $feeds      = json_decode($userFeed[0]->body);
-            $userCovers = json_decode($userFeed[1]->body); 
+        // if ($response->isNotModified($this->getRequest())) {
+        //     return $response;
+        // } else {
+        //     $userFeed = $facebookService->getUserFeed();
 
+        //     $feeds      = json_decode($userFeed[0]->body);
+        //     $userCovers = json_decode($userFeed[1]->body); 
+
+        // }
             return $this->render('SocialTrackerApplicationBundle:Facebook:home.html.twig', array(
-                'feeds'       => $feeds,
-                'userCovers'  => $userCovers
-            ), $response);
-        }
+                // 'feeds'       => $feeds,
+                // 'userCovers'  => $userCovers
+            ));
     }
 
     public function ajaxPublishAction(Request $request)

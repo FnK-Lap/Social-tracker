@@ -60,6 +60,7 @@ class FacebookService
 
     public function getAccessToken()
     {
+        die('cc');
         try 
         {
             $session = $this->loginHelper->getSessionFromRedirect();
