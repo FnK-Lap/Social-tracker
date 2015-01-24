@@ -1,1 +1,1 @@
-web: web/app.php web/
+web: bin/heroku-php-apache2 web/
