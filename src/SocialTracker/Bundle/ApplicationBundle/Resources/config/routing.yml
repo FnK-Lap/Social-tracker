@@ -64,6 +64,7 @@ facebook_home:
 facebook_publish:
     path:   /facebook/publish
     defaults: { _controller: SocialTrackerApplicationBundle:Facebook:ajaxPublish }
+    methods: POST
 
 settings_facebook_callback:
     path:   /settings/facebook_callback

@@ -4,32 +4,31 @@ namespace SocialTracker\Bundle\ApplicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use FOS\UserBundle\Model\User as BaseUser;
-
 /**
- * Instagram
+ * FacebookPost
  */
-class Instagram
+class FacebookPost
 {
-    
     /**
      * @var integer
      */
     private $id;
 
+    /**
+     * @var string
+     */
+    private $content;
 
     /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Instagram
+     * @var string
      */
-    public function setId($id)
-    {
-        $this->id = $id;
+    private $facebookId;
 
-        return $this;
-    }
+    /**
+     * @var string
+     */
+    private $createdTime;
+
 
     /**
      * Get id
@@ -40,17 +39,12 @@ class Instagram
     {
         return $this->id;
     }
-    /**
-     * @var string
-     */
-    private $content;
-
 
     /**
      * Set content
      *
      * @param string $content
-     * @return Instagram
+     * @return FacebookPost
      */
     public function setContent($content)
     {
@@ -68,21 +62,39 @@ class Instagram
     {
         return $this->content;
     }
-    /**
-     * @var integer
-     */
-    private $created_time;
 
+    /**
+     * Set facebookId
+     *
+     * @param string $facebookId
+     * @return FacebookPost
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    /**
+     * Get facebookId
+     *
+     * @return string 
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
+    }
 
     /**
      * Set createdTime
      *
-     * @param integer $createdTime
-     * @return Instagram
+     * @param string $createdTime
+     * @return FacebookPost
      */
     public function setCreatedTime($createdTime)
     {
-        $this->created_time = $createdTime;
+        $this->createdTime = $createdTime;
 
         return $this;
     }
@@ -90,39 +102,11 @@ class Instagram
     /**
      * Get createdTime
      *
-     * @return integer 
+     * @return string 
      */
     public function getCreatedTime()
     {
-        return $this->created_time;
-    }
-    /**
-     * @var string
-     */
-    private $instagram_id;
-
-
-    /**
-     * Set instagram_id
-     *
-     * @param string $instagramId
-     * @return Instagram
-     */
-    public function setInstagramId($instagramId)
-    {
-        $this->instagram_id = $instagramId;
-
-        return $this;
-    }
-
-    /**
-     * Get instagram_id
-     *
-     * @return string 
-     */
-    public function getInstagramId()
-    {
-        return $this->instagram_id;
+        return $this->createdTime;
     }
     /**
      * @var \SocialTracker\Bundle\ApplicationBundle\Entity\User
@@ -134,7 +118,7 @@ class Instagram
      * Set user
      *
      * @param \SocialTracker\Bundle\ApplicationBundle\Entity\User $user
-     * @return Instagram
+     * @return FacebookPost
      */
     public function setUser(\SocialTracker\Bundle\ApplicationBundle\Entity\User $user = null)
     {

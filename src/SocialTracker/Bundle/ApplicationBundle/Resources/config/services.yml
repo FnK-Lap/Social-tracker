@@ -18,11 +18,16 @@ services:
             - @router
 
     # Facebook
+    facebook:
+        class: SocialTracker\Bundle\ApplicationBundle\Facebook\Facebook
+        arguments:
+            - @facebook.authentication_helper
+
     facebook.authentication_helper:
         class: SocialTracker\Bundle\ApplicationBundle\Facebook\AuthenticationHelper
         arguments:
-            - %instagram_client_id%
-            - %instagram_secret%
+            - %facebook_client_id%
+            - %facebook_secret%
             - @guzzle.client
             - @router
             - @facebook.login_helper

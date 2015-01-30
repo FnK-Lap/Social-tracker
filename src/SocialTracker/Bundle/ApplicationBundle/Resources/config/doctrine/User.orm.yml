@@ -26,10 +26,16 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
             type: string
             length: 255
             nullable: true
+        facebook_last_post:
+            type: integer
+            nullable: true
 
 
     oneToMany:
         instagram_posts:
             targetEntity: Instagram
+            mappedBy: user
+        facebook_posts:
+            targetEntity: FacebookPost
             mappedBy: user
     lifecycleCallbacks: {  }

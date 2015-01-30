@@ -240,4 +240,71 @@ class User extends BaseUser
     {
         return $this->facebook_access_token;
     }
+
+    /**
+     * @var integer
+     */
+    private $facebook_last_post;
+
+
+    /**
+     * Set facebook_last_post
+     *
+     * @param integer $facebookLastPost
+     * @return User
+     */
+    public function setFacebookLastPost($facebookLastPost)
+    {
+        $this->facebook_last_post = $facebookLastPost;
+
+        return $this;
+    }
+
+    /**
+     * Get facebook_last_post
+     *
+     * @return integer 
+     */
+    public function getFacebookLastPost()
+    {
+        return $this->facebook_last_post;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $facebook_posts;
+
+
+    /**
+     * Add facebook_posts
+     *
+     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\FacebookPost $facebookPosts
+     * @return User
+     */
+    public function addFacebookPost(\SocialTracker\Bundle\ApplicationBundle\Entity\FacebookPost $facebookPosts)
+    {
+        $this->facebook_posts[] = $facebookPosts;
+
+        return $this;
+    }
+
+    /**
+     * Remove facebook_posts
+     *
+     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\FacebookPost $facebookPosts
+     */
+    public function removeFacebookPost(\SocialTracker\Bundle\ApplicationBundle\Entity\FacebookPost $facebookPosts)
+    {
+        $this->facebook_posts->removeElement($facebookPosts);
+    }
+
+    /**
+     * Get facebook_posts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFacebookPosts()
+    {
+        return $this->facebook_posts;
+    }
 }
