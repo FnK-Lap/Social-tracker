@@ -8,8 +8,9 @@
     </div>
     <!-- Quick Publish Facebook / Twitter -->
     <div class="row quick-publish">
+        {% set user = app.security.getToken().getUser() %}
         <!-- Facebook -->
-        {% if app.session.get('facebook') is not null
+        {% if user.facebookAccessToken is not null
             and app.session.get('twitter') is null %}
             <div class="col-lg-6 col-lg-offset-3">
                 <div class="input-group" id='facebook-quick-publish'>
@@ -20,7 +21,7 @@
                 </div>
             </div>
         <!-- Twitter -->
-        {% elseif app.session.get('facebook') is null
+        {% elseif user.facebookAccessToken is null
             and app.session.get('twitter') is not null %}
             <div class="col-lg-6 col-lg-offset-3">
                 <div class="input-group">
@@ -31,7 +32,7 @@
                 </div>
             </div>
         <!-- Facebook Twitter -->
-        {% elseif app.session.get('facebook') is not null
+        {% elseif user.facebookAccessToken is not null
             and app.session.get('twitter') is not null %}
             <div class="col-lg-6">
                 <div class="input-group" id='facebook-quick-publish'>

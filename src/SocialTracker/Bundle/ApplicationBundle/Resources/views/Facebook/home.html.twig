@@ -3,7 +3,7 @@
 {% block title %}Facebook{% endblock %}
 
 {% block content %}
-    {% if feeds is defined %}
+    {% if userFeed is not null %}
         {# 
             Type of feed :
                 / Video
@@ -18,22 +18,21 @@
                 - Note
                 - Group
         #}
-        {% for feed in feeds.data %}
-            {% set picture = attribute(userCovers, feed.from.id) %}
+        {% for feed in userFeed %}
             {#
                 Status
             #}
-            {% if feed.type == 'status' and feed.story is not defined %}
+            {% if feed.content.type == 'status' and feed.content.story is not defined %}
                 <div class='row facebook-feed'>
                     <div class="media facebook-status">
                         <a href="#" class="media-left">
-                            <img alt="{{feed.from.name}}" class="img-circle avatar" src="{{picture.picture.data.url}}">
+                            <img alt="{{feed.content.from.name}}" class="img-circle avatar" src="{{feed.content.from.url}}">
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">{{feed.from.name}}{% if feed.to is defined %}<small> <i class="fa fa-hand-o-right"></i> {{feed.to.data.0.name}} </small>{% endif %}</h4>
+                            <h4 class="media-heading">{{feed.content.from.name}}{% if feed.content.to is defined %}<small> <i class="fa fa-hand-o-right"></i> {{feed.content.to.data.0.name}} </small>{% endif %}</h4>
                             
-                            {% if feed.message is defined %}
-                                <p>{{feed.message}}</p>
+                            {% if feed.content.message is defined %}
+                                <p>{{feed.content.message}}</p>
                             {% endif %}
                         </div>
                     </div>
@@ -42,16 +41,16 @@
             {#
                 Video
             #}
-            {% elseif feed.type == 'video' %}
+            {% elseif feed.content.type == 'video' %}
                 <div class='row facebook-feed'>
                     <div class="media facebook-video">
                         <a href="#" class="media-left">
-                            <img alt="{{feed.from.name}}" class="img-circle avatar" src="{{picture.picture.data.url}}">
+                            <img alt="{{feed.content.from.name}}" class="img-circle avatar" src="{{feed.content.from.url}}">
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">{{feed.from.name}}</h4>
-                            <img class='facebook-video-picture img-thumbnail' src="{{feed.picture}}" width='200' data-video='{{feed.source}}'>
-                            {% if feed.description is defined %}<p>{{feed.description}}</p>{% endif %}
+                            <h4 class="media-heading">{{feed.content.from.name}}</h4>
+                            <img class='facebook-video-picture img-thumbnail' src="{{feed.content.picture}}" width='200' data-video='{{feed.content.source}}'>
+                            {% if feed.content.description is defined %}<p>{{feed.content.description}}</p>{% endif %}
                         </div>
                     </div>
                     <hr>
@@ -59,61 +58,54 @@
             {#
                 Photo
             #}
-            {% elseif feed.type == 'photo' %}
+            {% elseif feed.content.type == 'photo' %}
                 <div class='row facebook-feed'>
                     <div class='media facebook-photo'>
                         <a href="#" class='media-left'>
-                            <img alt='{{feed.from.name}}' class='img-circle avatar' src="{{picture.picture.data.url}}">
+                            <img alt='{{feed.content.from.name}}' class='img-circle avatar' src="{{feed.content.from.url}}">
                         </a>
                         <div class='media-body'>
-                            <h4 class='media-heading'>{{feed.from.name}}
-                                {% if feed.status_type is defined and feed.status_type == 'tagged_in_photo' %}
-                                    <small><i class="fa fa-tag"></i>{% set user = attribute(feed.story_tags, feed.story_tags.0[0].length + 15)%} Identifié sur la photo de {{user[0].name}}</small>
-                                {% elseif feed.status_type is defined and feed.status_type == 'added_photos' %}
+                            <h4 class='media-heading'>{{feed.content.from.name}}
+                                {% if feed.content.status_type is defined and feed.content.status_type == 'tagged_in_photo' %}
+                                    <small><i class="fa fa-tag"></i>{% set user = attribute(feed.content.story_tags, feed.content.story_tags.0[0].length + 15)%} Identifié sur la photo de {{user[0].name}}</small>
+                                {% elseif feed.content.status_type is defined and feed.content.status_type == 'added_photos' %}
                                     <small><i class='fa fa-plus'></i> A ajouté une photo</small>
                                 {% endif %}
                             </h4>
                             <div>
-                                <img src="{{feed.picture}}" class='img-rounded'>
+                                <img src="{{feed.content.picture}}" class='img-rounded'>
                             </div>
-                            {% if feed.description is defined %}<p>{{feed.description}}</p>{% endif %}
-                            {% if feed.message is defined %}<p>{{feed.message}}</p>{% endif %}
+                            {% if feed.content.description is defined %}<p>{{feed.content.description}}</p>{% endif %}
+                            {% if feed.content.message is defined %}<p>{{feed.content.message}}</p>{% endif %}
                         </div>
                     </div>
                     <hr>
                 </div>
-            {% elseif feed.type == 'link' and feed.picture is defined %}
+            {#
+                Link
+            #}
+            {% elseif feed.content.type == 'link' and feed.content.picture is defined %}
                 <div class='row facebook-feed'>
                     <div class='media facebook-link'>
                         <a href="#" class='media-left'>
-                            <img alt='{{feed.from.name}}' class='img-circle avatar' src="{{picture.picture.data.url}}">
+                            <img alt='{{feed.content.from.name}}' class='img-circle avatar' src="{{feed.content.from.url}}">
                         </a>
                         <div class='media-body'>
-                            <h4 class='media-heading'>{{feed.from.name}}
+                            <h4 class='media-heading'>{{feed.content.from.name}}
                             </h4>
                             <div>
-                                <a href="{{feed.link}}"><img src="{{feed.picture}}"></a>
+                                <a href="{{feed.content.link}}"><img src="{{feed.content.picture}}"></a>
                             </div>
                             <div class='info'>
-                                <h5>{% if feed.message is defined %}<p>{{feed.message}}</p>{% endif %}</h5>
-                                {% if feed.description is defined %}<p>{{feed.description}}</p>{% endif %}
+                                <h5>{% if feed.content.message is defined %}<p>{{feed.content.message}}</p>{% endif %}</h5>
+                                {% if feed.content.description is defined %}<p>{{feed.content.description}}</p>{% endif %}
                             </div>
-
                         </div>
                     </div>
-
+                    <hr>
                 </div>
-            {% else %}
-
             {% endif %}
         {% endfor %}
-
-        {% for feed in feeds.data %}
-            {% if feed.type == 'link' %}
-
-            {% endif %}
-        {% endfor %}
-
     {% else %}
         <div class="alert alert-info" role="alert">
             Vous n'êtes pas connecté a Facebook. Veuillez <a href="{{path('application_settings')}}" class="alert-link">vous connecter</a> !

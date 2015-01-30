@@ -43,7 +43,6 @@ class Instagram
             foreach ($prevData['data'] as $post) {
                 $data['data'][] = $post;
             }
-            array_merge($data['data'], $prevData['data']);
         }
 
         if ($data['pagination']) {

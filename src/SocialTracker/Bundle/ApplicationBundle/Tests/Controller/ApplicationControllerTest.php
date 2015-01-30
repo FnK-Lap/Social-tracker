@@ -74,67 +74,17 @@ class ApplicationControllerTest extends WebTestCase
         $this->assertFalse($client->getResponse()->isRedirect());
     }
 
-    public function testAddSocial()
+    public function testDisableSocial()
     {
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'John',
             'PHP_AUTH_PW'   => 'qq'
         ));
 
-        $crawler = $client->request('POST', '/social/add', array('social' => 'facebook'));
+        $crawler = $client->request('GET', '/social/facebook/disable');
+        $user = $client->getContainer()->get('security.context')->getToken()->getUser();
 
-        $socials = $client->getContainer()->get('security.context')->getToken()->getUser()->getSocial();
-
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertTrue(in_array('facebook', $socials));
-    }
-
-    public function testAddSocialFail()
-    {
-        $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'John',
-            'PHP_AUTH_PW'   => 'qq'
-        ));
-
-        $crawler = $client->request('POST', '/social/add', array('social' => 'BadSocial'));
-
-        $socials = $client->getContainer()->get('security.context')->getToken()->getUser()->getSocial();
-
-        $this->assertFalse($client->getResponse()->isSuccessful());
-    }
-
-    /**
-     * @depends testAddSocial
-     */
-    public function testRemoveSocial()
-    {
-        $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'John',
-            'PHP_AUTH_PW'   => 'qq'
-        ));
-
-        $crawler = $client->request('POST', '/social/remove', array('social' => 'facebook'));
-
-        $socials = $client->getContainer()->get('security.context')->getToken()->getUser()->getSocial();
-
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertTrue(!in_array('facebook', $socials));
-    }
-
-    /**
-     * @depends testRemoveSocial
-     */
-    public function testRemoveSocialFail()
-    {
-        $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'John',
-            'PHP_AUTH_PW'   => 'qq'
-        ));
-
-        $crawler = $client->request('POST', '/social/remove', array('social' => 'facebook'));
-
-        $socials = $client->getContainer()->get('security.context')->getToken()->getUser()->getSocial();
-
-        $this->assertFalse($client->getResponse()->isSuccessful());
+        $this->assertEquals(null, $user->getFacebookAccessToken());
+        $this->assertEquals(null, $user->getFacebookUsername());
     }
 }
