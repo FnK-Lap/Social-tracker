@@ -76,16 +76,4 @@ class InstagramController extends Controller
             'media' => $media
         ));
     }
-
-
-
-
-
-    public function ajaxUserFeedAction($maxId)
-    {
-        $instagramService = $this->get('instagram_service');
-        $userFeed = $instagramService->getUserFeed(null, $maxId);
-
-        return new Response(json_encode($userFeed));
-    }
 }
