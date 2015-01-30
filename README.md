@@ -15,7 +15,7 @@ Instagram:
 
 Facebook:
   - Get your feed (status, videos, photos and link)
-  - In progress
+  - Post a status
   
 Twitter:
   - In progress
@@ -32,4 +32,17 @@ instagram_secret:     YourOwnInstagramSecret
 
 facebook_client_id:   YourOwnFacebookClientId
 facebook_secret:      YourOwnFacebookSecret
+```
+
+#Commands
+Commands to fetch new posts
+
+For Instagram: 
+```BASH
+php app/console social:instagram:fetch
+````
+
+For Facebook:
+```BASH
+php app/console social:facebook:fetch
 ```
