@@ -29,16 +29,20 @@ class AuthenticationHelper
         $this->urlGenerator = $urlGenerator;
         $this->loginHelper  = $loginHelper;
         FacebookSession::setDefaultApplication($clientId, $clientSecret);
-        FacebookSession::enableAppSecretProof(false);
     }
 
-    private function createRequest(FacebookSession $facebookSession, $method, $path, $parameters = null, $version = null, $etag = null)
+    public function createRequest(FacebookSession $facebookSession, $method, $path, $parameters = null, $version = null, $etag = null)
     {
         $request = new FacebookRequest($facebookSession, $method, $path, $parameters, $version, $etag);
         $clientHandler = new GuzzleClientHandler($this->guzzleClient);
         $request::setHttpClientHandler($clientHandler);
 
         return $request;
+    }
+
+    public function newSessionFromAccessToken($accessToken)
+    {
+        return new FacebookSession($accessToken);    
     }
 
     public function getAuthorizeUrl()
@@ -77,9 +81,9 @@ class AuthenticationHelper
             // Get long-lived accessToken
             $accessToken = $session->getAccessToken();
 
-            // $longLivedAccessToken = $accessToken->extend($this->clientId, $this->clientSecret);
+            $longLivedAccessToken = $accessToken->extend($this->clientId, $this->clientSecret);
             return new TokenResponse(
-                $accessToken,
+                $longLivedAccessToken,
                 $user_profile->getName()
             );
 

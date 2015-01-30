@@ -12,7 +12,7 @@ class FacebookController extends Controller
 {
     public function homeAction()
     {
-        $facebookService = $this->get('facebook_service');
+        $facebook = $this->get('facebook');
         $user = $this->get('security.context')->getToken()->getUser();
         
         if ($user->getFacebookAccessToken() === null) 
@@ -20,44 +20,32 @@ class FacebookController extends Controller
             return $this->render('SocialTrackerApplicationBundle:Facebook:home.html.twig', array());
         }
 
-        // $userFeed = $facebookService->getUserFeed(array('limit' => 1));
+        $em = $this->getDoctrine()->getManager();
 
-        // $feeds      = json_decode($userFeed[0]->body);
-        // $userCovers = json_decode($userFeed[1]->body); 
+        $userFeed = $em->getRepository('SocialTrackerApplicationBundle:FacebookPost')->findFeedByUser($user);
 
-        // $response = new Response();
-        // $response->setEtag(md5(json_encode($feeds->data[0]->id)));
+        foreach ($userFeed as &$feed) {
+            $feed['content'] = json_decode($feed['content']);
+        }
 
-        // if ($response->isNotModified($this->getRequest())) {
-        //     return $response;
-        // } else {
-        //     $userFeed = $facebookService->getUserFeed();
-
-        //     $feeds      = json_decode($userFeed[0]->body);
-        //     $userCovers = json_decode($userFeed[1]->body); 
-
-        // }
-            return $this->render('SocialTrackerApplicationBundle:Facebook:home.html.twig', array(
-                // 'feeds'       => $feeds,
-                // 'userCovers'  => $userCovers
-            ));
+        return $this->render('SocialTrackerApplicationBundle:Facebook:home.html.twig', array(
+            'userFeed' => $userFeed,
+        ));
     }
 
     public function ajaxPublishAction(Request $request)
     {
+        $user = $this->get('security.context')->getToken()->getUser();
         $message = $request->request->get('message');
-
-        if (empty($message)) 
-        {
+        if (empty($message)) {
             return new JsonResponse(array('code' => 409, 'message' => 'Le statut ne peux etre vide'));
         }
 
-        $facebookService = $this->get('facebook_service');
-        $result = $facebookService->publishStatut($message);
+        $facebook = $this->get('facebook');
+        $facebook->publish($user->getFacebookAccessToken(), $message);
 
-        return new JsonResponse($result);
+        return new JsonResponse(array('code' => 201));
     }
-
 }
 
 
