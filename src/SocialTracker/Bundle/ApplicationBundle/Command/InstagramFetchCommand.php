@@ -3,7 +3,7 @@
 namespace SocialTracker\Bundle\ApplicationBundle\Command;
 
 use igorw;
-use SocialTracker\Bundle\ApplicationBundle\Entity\Instagram;
+use SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,7 +47,7 @@ class InstagramFetchCommand extends ContainerAwareCommand
                     $em->persist($user);
 
                     foreach ($feed['data'] as $post) {
-                        $instagramPost = new Instagram();
+                        $instagramPost = new InstagramPost();
                         $instagramPost->setInstagramId($post['id'])
                                       ->setUser($user)
                                       ->setCreatedTime($post['created_time'])

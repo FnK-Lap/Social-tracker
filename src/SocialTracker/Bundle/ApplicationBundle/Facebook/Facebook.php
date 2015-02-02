@@ -43,6 +43,7 @@ class Facebook
         );
 
         $response = $request->execute()->getGraphObject()->asArray();
+
         $data = json_decode($response[0]->body)->data;
         $userPicture = json_decode($response[1]->body);
 

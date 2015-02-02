@@ -2,7 +2,7 @@
 
 namespace SocialTracker\Bundle\ApplicationBundle\Controller;
 
-use SocialTracker\Bundle\ApplicationBundle\Entity\Instagram;
+use SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +21,7 @@ class InstagramController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $userFeed = $em->getRepository('SocialTrackerApplicationBundle:Instagram')->findFeedByUser($user);
+        $userFeed = $em->getRepository('SocialTrackerApplicationBundle:InstagramPost')->findFeedByUser($user);
 
         foreach ($userFeed as &$feed) {
             $feed['content'] = json_decode($feed['content']);
@@ -32,7 +32,7 @@ class InstagramController extends Controller
         ));
     }
 
-    public function refreshMediaAction(Instagram $media)
+    public function refreshMediaAction(InstagramPost $media)
     {
         $instagram = $this->get('instagram');
         $user = $this->get('security.context')->getToken()->getUser();
@@ -44,7 +44,7 @@ class InstagramController extends Controller
 
     }
 
-    public function ajaxLikeMediaAction(Instagram $media)
+    public function ajaxLikeMediaAction(InstagramPost $media)
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $instagram = $this->get('instagram');
@@ -55,7 +55,7 @@ class InstagramController extends Controller
         return new Response(json_encode($newMedia));
     }
 
-    public function ajaxDislikeMediaAction(Instagram $media)
+    public function ajaxDislikeMediaAction(InstagramPost $media)
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $instagram = $this->get('instagram');
@@ -69,11 +69,16 @@ class InstagramController extends Controller
     public function showMediaAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $media = $em->getRepository('SocialTrackerApplicationBundle:Instagram')->findOneBy(array('instagram_id' => $id));
-        $media->setContent(json_decode($media->getContent()));
+        $instagram = $this->get('instagram');
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $media = $em->getRepository('SocialTrackerApplicationBundle:InstagramPost')->findOneBy(array('instagram_id' => $id));
+        $newMedia = $instagram->refreshMedia($user->getInstagramAccessToken(), $media);
+
+        $newMedia->setContent(json_decode($newMedia->getContent()));
 
         return $this->render('SocialTrackerApplicationBundle:Instagram:showMedia.html.twig', array(
-            'media' => $media
+            'media' => $newMedia
         ));
     }
 }

@@ -1,6 +1,6 @@
-SocialTracker\Bundle\ApplicationBundle\Entity\Instagram:
+SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost:
     type: entity
-    repositoryClass: SocialTracker\Bundle\ApplicationBundle\Entity\InstagramRepository
+    repositoryClass: SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPostRepository
     table: null
     id:
         id:

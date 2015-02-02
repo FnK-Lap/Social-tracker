@@ -96,28 +96,7 @@ class User extends BaseUser
         $this->instagram_posts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Add instagram_posts
-     *
-     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\Instagram $instagramPosts
-     * @return User
-     */
-    public function addInstagramPost(\SocialTracker\Bundle\ApplicationBundle\Entity\Instagram $instagramPosts)
-    {
-        $this->instagram_posts[] = $instagramPosts;
 
-        return $this;
-    }
-
-    /**
-     * Remove instagram_posts
-     *
-     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\Instagram $instagramPosts
-     */
-    public function removeInstagramPost(\SocialTracker\Bundle\ApplicationBundle\Entity\Instagram $instagramPosts)
-    {
-        $this->instagram_posts->removeElement($instagramPosts);
-    }
 
     /**
      * Get instagram_posts

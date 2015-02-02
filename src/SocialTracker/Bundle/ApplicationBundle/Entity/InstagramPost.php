@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
- * Instagram
+ * InstagramPost
  */
-class Instagram
+class InstagramPost
 {
     
     /**
@@ -22,7 +22,7 @@ class Instagram
      * Set id
      *
      * @param integer $id
-     * @return Instagram
+     * @return InstagramPost
      */
     public function setId($id)
     {
@@ -50,7 +50,7 @@ class Instagram
      * Set content
      *
      * @param string $content
-     * @return Instagram
+     * @return InstagramPost
      */
     public function setContent($content)
     {
@@ -78,7 +78,7 @@ class Instagram
      * Set createdTime
      *
      * @param integer $createdTime
-     * @return Instagram
+     * @return InstagramPost
      */
     public function setCreatedTime($createdTime)
     {
@@ -106,7 +106,7 @@ class Instagram
      * Set instagram_id
      *
      * @param string $instagramId
-     * @return Instagram
+     * @return InstagramPost
      */
     public function setInstagramId($instagramId)
     {
@@ -134,7 +134,7 @@ class Instagram
      * Set user
      *
      * @param \SocialTracker\Bundle\ApplicationBundle\Entity\User $user
-     * @return Instagram
+     * @return InstagramPost
      */
     public function setUser(\SocialTracker\Bundle\ApplicationBundle\Entity\User $user = null)
     {

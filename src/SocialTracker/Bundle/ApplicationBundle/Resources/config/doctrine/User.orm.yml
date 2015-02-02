@@ -33,7 +33,7 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
 
     oneToMany:
         instagram_posts:
-            targetEntity: Instagram
+            targetEntity: InstagramPost
             mappedBy: user
         facebook_posts:
             targetEntity: FacebookPost
