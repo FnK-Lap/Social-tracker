@@ -40,6 +40,8 @@
   100% { -ms-transform: scale(0.3); } }
 @keyframes bounce_circularG { 0% { -webkit-transform: scale(1); -ms-transform: scale(1); transform: scale(1); }
   100% { -webkit-transform: scale(0.3); -ms-transform: scale(0.3); transform: scale(0.3); } }
+body { background: url("../img/social.png"); }
+
 #login-box { margin-top: 150px; padding: 30px; border: 1px solid black; }
 #login-box h3 { text-align: center; padding-bottom: 30px; }
 
@@ -96,6 +98,8 @@
 
 @media screen and (max-width: 767px) { #wrapper.active { padding-left: 65px; }
   #wrapper.active #sidebar-wrapper { left: 65px; } }
+.page-header { border-bottom-color: #bdc3c7; }
+
 .quick-publish .facebook-color { background-color: #3b5998; color: #fff; border-color: transparent; }
 .quick-publish .twitter-color { background-color: #00aced; color: #fff; border-color: transparent; }
 
@@ -145,6 +149,7 @@
 @media screen and (max-width: 992px) { .instagram-media-refresh .badge { background-color: #517fa4; width: 90%; margin-left: 5%; margin-bottom: 20px; cursor: pointer; } }
 @media screen and (min-width: 992px) { .instagram-media-refresh .badge { background-color: #517fa4; position: fixed; right: 5%; top: 10%; z-index: 99; cursor: pointer; } }
 .facebook-feed { padding-top: 10px; padding-bottom: 10px; }
+.facebook-feed hr { border-color: #bdc3c7; }
 
 .facebook-video .media-body img, .facebook-video .media-body embed { display: block; cursor: pointer; }
 
@@ -152,3 +157,5 @@
 
 .facebook-photo .media-body div, .facebook-link .media-body div { display: table-cell; }
 .facebook-photo .media-body p, .facebook-photo .media-body .info, .facebook-link .media-body p, .facebook-link .media-body .info { display: table-cell; vertical-align: middle; padding-left: 2em; }
+
+/*# sourceMappingURL=app.css.map */
