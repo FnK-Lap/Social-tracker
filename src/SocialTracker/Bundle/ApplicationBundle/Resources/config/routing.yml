@@ -40,6 +40,12 @@ instagram_refresh_media:
     path:   /instagram/{media}/refresh
     defaults: { _controller: SocialTrackerApplicationBundle:Instagram:refreshMedia }
 
+instagram_delete_media:
+    path:   /instagram/{id}/delete
+    defaults: { _controller: SocialTrackerApplicationBundle:Instagram:deleteMedia }
+    requirements:
+        _method: DELETE
+
 instagram_user_feed:
     path:   /instagram/feed/{maxId}
     defaults: { _controller: SocialTrackerApplicationBundle:Instagram:ajaxUserFeed }

@@ -5,7 +5,9 @@ namespace SocialTracker\Bundle\ApplicationBundle\Controller;
 use SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class InstagramController extends Controller
 {
@@ -42,6 +44,26 @@ class InstagramController extends Controller
 
         return new Response(json_encode($newMedia));
 
+    }
+
+    public function deleteMediaAction(Request $request, $id)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $media = $em->getRepository('SocialTrackerApplicationBundle:InstagramPost')->find($id);
+            if ($media->getUser() === $this->getUser()) {
+                $em->remove($media);
+                $em->flush();
+
+                return new JsonResponse(array(
+                    'status'  => 200,
+                    'message' => 'OK'
+                ));
+            }
+            throw new AccessDeniedException("Your are not the owner of this post");
+        }
+
+        throw new AccessDeniedException("Only XmlHttpRequest was authorized");
     }
 
     public function ajaxLikeMediaAction(InstagramPost $media)
