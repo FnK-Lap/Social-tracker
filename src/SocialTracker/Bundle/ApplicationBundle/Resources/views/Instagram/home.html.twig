@@ -3,7 +3,11 @@
 {% block title %}Instagram{% endblock %}
 
 {% block content %}
-    {% if userFeed is defined %}
+    {% if userFeed is defined and userFeed is empty %}
+        <div class='alert alert-info' role='alert'>
+            Vous n'avez aucuns posts.
+        </div>
+    {% elseif userFeed is defined and userFeed is not empty %}
         <ul class='grid cs-style-3'>
             {% for post in userFeed %}
                 <li>
@@ -14,13 +18,14 @@
                         {% if post.content.user_has_liked == true %}
                             <i class='fa fa-heart fa-lg'></i>
                         {% endif %}
-                        <a href="/instagram/{{post.content.id}}"><img src="{{post.content.images.low_resolution.url}}" alt='{{post.content.user.username}}'></a>
+                        <a href="/instagram/{{post.content.id}}"><img src="{{post.content.images.low_resolution.url}}" alt='{{post.content.user.username}}' class='instagram-media-img' data-id="{{post.id}}">
                         <figcaption>
                             <h5>{{post.content.user.username}}</h5>
                             {% if post.content.caption.text is defined %}
                                 <span>{{post.content.caption.text}}</span>
                             {% endif %}
                         </figcaption>
+                        </a>
                     </figure>
                 </li>
             {% endfor %}
@@ -35,6 +40,7 @@
 {% block script %}
     <script type="text/javascript">
     var maxId = "{{userFeed.pagination.next_max_id|default}}"
+    var delete_publication = "{{asset('img/delete_publication')}}"
     </script>
     <script src="/assets/js/module/ajaxClass.js"></script>
     <script src="/assets/js/module/instagramClass.js"></script>

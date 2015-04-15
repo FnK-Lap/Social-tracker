@@ -33,7 +33,7 @@
                         <tr>
                             <th></th>
                             <th>Réseau Social</th>
-                            <th><i class='fa fa-times fa-lg'></i>/<i class='fa fa-check fa-lg'></i></th>
+                            <th>Désactiver</i></th>
                             <th>Status</th>
                             <th>Nom d'utilisateur</th>
                         </tr>
@@ -49,7 +49,7 @@
                                 </td>
                                 <td>{{userSettings.instagram.username}}</td>
                             {% else %}
-                                <td><i data-social="instagram" data-action="activate" class="fa fa-times fa-lg brand-default open-active-modal"></i></td>
+                                <td><i data-social="instagram" data-action="activate" class="fa fa-times fa-lg brand-default"></i></td>
                                 <td><span class='label label-default disconnect' data-social='instagram'><a href="{{instagramUrl}}">Déconnecté</a></span></td>
                                 <td></td>
                             {% endif %}
@@ -65,7 +65,7 @@
                                 </td>
                                 <td>{{userSettings.facebook.username}}</td>
                             {% else %}
-                                <td><i data-social="instagram" data-action="activate" class="fa fa-times fa-lg brand-default open-active-modal"></i></td>
+                                <td><i data-social="instagram" data-action="activate" class="fa fa-times fa-lg brand-default"></i></td>
                                 <td><span class='label label-default disconnect' data-social='instagram'><a href="{{facebookUrl}}">Déconnecté</a></span></td>
                                 <td></td>
                             {% endif %}

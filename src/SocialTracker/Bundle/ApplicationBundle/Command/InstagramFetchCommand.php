@@ -54,13 +54,13 @@ class InstagramFetchCommand extends ContainerAwareCommand
                                       ->setContent(json_encode($post));
                         $em->persist($instagramPost);
                     }
-                    $output->writeln($user->getUsername(). ' fetch ' . count($feed['data']) . ' posts');
+                    $output->writeln($user->getUsername(). ' fetch <fg=cyan>' . count($feed['data']) . '</fg=cyan> posts');
                 } else {
-                    $output->writeln($user->getUsername(). ' fetch 0 post');
+                    $output->writeln($user->getUsername(). ' fetch <fg=cyan>0</fg=cyan> post');
                 }
                 $em->flush();
             } else {
-                $output->writeln($user->getUsername() . ' : No Token');
+                $output->writeln($user->getUsername() . ' : <fg=red>No Token</fg=red>');
             }
         }
 

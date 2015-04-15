@@ -52,12 +52,12 @@ class FacebookFetchCommand extends ContainerAwareCommand
                         $em->persist($facebookPost);
                     }
                     $em->flush();
-                    $output->writeln($user->getUsername(). ' fetch ' . count($feed) . ' posts');
+                    $output->writeln($user->getUsername(). ' fetch <fg=cyan>' . count($feed) . '</fg=cyan> posts');
                 } else {
-                    $output->writeln($user->getUsername(). ' fetch 0 posts');
+                    $output->writeln($user->getUsername(). ' fetch <fg=cyan>0</fg=cyan> posts');
                 }
             } else {
-                $output->writeln($user->getUsername() . ' : No Token');
+                $output->writeln($user->getUsername() . ' : <fg=red>No Token</fg=red>');
             }
         }
 

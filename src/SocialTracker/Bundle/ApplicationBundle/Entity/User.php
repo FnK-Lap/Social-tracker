@@ -286,4 +286,62 @@ class User extends BaseUser
     {
         return $this->facebook_posts;
     }
+
+    /**
+     * @var string
+     */
+    private $youtube_access_token;
+
+
+    /**
+     * Set youtube_access_token
+     *
+     * @param string $youtubeAccessToken
+     * @return User
+     */
+    public function setYoutubeAccessToken($youtubeAccessToken)
+    {
+        $this->youtube_access_token = $youtubeAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * Get youtube_access_token
+     *
+     * @return string 
+     */
+    public function getYoutubeAccessToken()
+    {
+        return $this->youtube_access_token;
+    }
+
+    /**
+     * @var string
+     */
+    private $twitter_access_token;
+
+
+    /**
+     * Set twitter_access_token
+     *
+     * @param string $twitterAccessToken
+     * @return User
+     */
+    public function setTwitterAccessToken($twitterAccessToken)
+    {
+        $this->twitter_access_token = $twitterAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * Get twitter_access_token
+     *
+     * @return string 
+     */
+    public function getTwitterAccessToken()
+    {
+        return $this->twitter_access_token;
+    }
 }

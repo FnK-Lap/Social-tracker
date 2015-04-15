@@ -3,7 +3,7 @@ var Facebook = function (ajax){
     function quickPublish() {
         var message = $('#facebook-quick-publish').children('input').val();
         $('#facebook-quick-publish').children('input').val('');
-        $('#facebook-quick-publish').children('input').attr('placeholder', 'Envoie ...');
+        $('#facebook-quick-publish').children('input').attr('placeholder', 'Envoi ...');
         ajax.send('/facebook/publish', {message: message}, true, 'POST', quickPublishSuccess, function(){$('#facebook-quick-publish').children('input').attr('placeholder', 'Une erreur est survenue :(');});
     }
 

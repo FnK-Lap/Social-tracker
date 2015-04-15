@@ -1,5 +1,5 @@
 parameters:
-    facebook_redirect_url: 'http://social-tracker.dev/settings/facebook_callback'
+    facebook_redirect_url: 'http://social-tracker.com/settings/facebook_callback'
 
 services:
     # Instagram

@@ -38,10 +38,17 @@ var Instagram = function (ajax){
         }
 
         function likeDislike() {
+            $(this).children().addClass('fa-spin');
             if ($(this).hasClass('liked')) {
-                ajax.send('/instagram/' + mediaId + "/dislike", {}, true, 'GET', function(){location.reload()});
+                ajax.send('/instagram/' + mediaId + "/dislike", {}, true, 'GET', function(){
+                    location.reload();
+                    $(this).children().removeClass('fa-spin');
+                });
             }else{
-                ajax.send('/instagram/' + mediaId + "/like", {}, true, 'GET', function(){location.reload()});
+                ajax.send('/instagram/' + mediaId + "/like", {}, true, 'GET', function(){
+                    location.reload();
+                    $(this).children().removeClass('fa-spin');
+                });
             };
         }
 

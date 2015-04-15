@@ -30,6 +30,14 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
             type: integer
             nullable: true
 
+        youtube_access_token:
+            type: text
+            nullable: true
+
+        twitter_access_token:
+            type: text
+            nullable: true
+
 
     oneToMany:
         instagram_posts:
