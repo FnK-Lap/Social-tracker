@@ -344,4 +344,93 @@ class User extends BaseUser
     {
         return $this->twitter_access_token;
     }
+
+    /**
+     * @var string
+     */
+    private $youtube_username;
+
+    /**
+     * Set youtube_username
+     *
+     * @param string $youtubeUsername
+     * @return User
+     */
+    public function setYoutubeUsername($youtubeUsername)
+    {
+        $this->youtube_username = $youtubeUsername;
+
+        return $this;
+    }
+
+    /**
+     * Get youtube_username
+     *
+     * @return string 
+     */
+    public function getYoutubeUsername()
+    {
+        return $this->youtube_username;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $youtube_posts;
+
+
+    /**
+     * Add instagram_posts
+     *
+     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts
+     * @return User
+     */
+    public function addInstagramPost(\SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts)
+    {
+        $this->instagram_posts[] = $instagramPosts;
+
+        return $this;
+    }
+
+    /**
+     * Remove instagram_posts
+     *
+     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts
+     */
+    public function removeInstagramPost(\SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts)
+    {
+        $this->instagram_posts->removeElement($instagramPosts);
+    }
+
+    /**
+     * Add youtube_posts
+     *
+     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\YoutubePost $youtubePosts
+     * @return User
+     */
+    public function addYoutubePost(\SocialTracker\Bundle\ApplicationBundle\Entity\YoutubePost $youtubePosts)
+    {
+        $this->youtube_posts[] = $youtubePosts;
+
+        return $this;
+    }
+
+    /**
+     * Remove youtube_posts
+     *
+     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\YoutubePost $youtubePosts
+     */
+    public function removeYoutubePost(\SocialTracker\Bundle\ApplicationBundle\Entity\YoutubePost $youtubePosts)
+    {
+        $this->youtube_posts->removeElement($youtubePosts);
+    }
+
+    /**
+     * Get youtube_posts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getYoutubePosts()
+    {
+        return $this->youtube_posts;
+    }
 }

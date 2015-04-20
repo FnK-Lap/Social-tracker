@@ -2,7 +2,9 @@ parameters:
     facebook_redirect_url: 'http://social-tracker.com/settings/facebook_callback'
 
 services:
-    # Instagram
+    # - - - - - - - - - - # 
+    # -    Instagram    - #
+    # - - - - - - - - - - #
     instagram:
         class: SocialTracker\Bundle\ApplicationBundle\Instagram\Instagram
         arguments:
@@ -17,7 +19,9 @@ services:
             - @guzzle.client
             - @router
 
-    # Facebook
+    # - - - - - - - - - - #
+    # -    Facebook     - #
+    # - - - - - - - - - - #
     facebook:
         class: SocialTracker\Bundle\ApplicationBundle\Facebook\Facebook
         arguments:
@@ -40,12 +44,19 @@ services:
             - %facebook_client_id%
             - %facebook_secret%
 
-    facebook_service:
-        class: SocialTracker\Bundle\ApplicationBundle\Services\FacebookService
+    # - - - - - - - - - - #
+    # -     Youtube     - #
+    # - - - - - - - - - - #
+    youtube:
+        class: SocialTracker\Bundle\ApplicationBundle\Youtube\Youtube
         arguments:
-            - %facebook_client_id%
-            - %facebook_secret%
             - @guzzle.client
-            - @session
-            - @facebook.login_helper
+            - @youtube.authentication_helper
 
+    youtube.authentication_helper:
+        class: SocialTracker\Bundle\ApplicationBundle\Youtube\AuthenticationHelper
+        arguments: 
+            - %youtube_client_id%
+            - %youtube_secret%
+            - @guzzle.client
+            - @router

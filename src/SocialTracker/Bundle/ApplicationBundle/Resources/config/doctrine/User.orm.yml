@@ -33,6 +33,10 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
         youtube_access_token:
             type: text
             nullable: true
+        youtube_username:
+            type: string
+            length: 255
+            nullable: true
 
         twitter_access_token:
             type: text
@@ -45,5 +49,8 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
             mappedBy: user
         facebook_posts:
             targetEntity: FacebookPost
+            mappedBy: user
+        youtube_posts:
+            targetEntity: YoutubePost
             mappedBy: user
     lifecycleCallbacks: {  }

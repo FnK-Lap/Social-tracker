@@ -1,0 +1,30 @@
+SocialTracker\Bundle\ApplicationBundle\Entity\YoutubePost:
+    type: entity
+    table: null
+    repositoryClass: SocialTracker\Bundle\ApplicationBundle\Entity\YoutubePostRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        content:
+            type: text
+        youtubeId:
+            type: string
+            length: 255
+            column: youtube_id
+        createdTime:
+            type: datetime
+            column: created_time
+
+    manyToOne:
+        user:
+            targetEntity: User
+            inversedBy: youtube_posts
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+
+    lifecycleCallbacks: {  }

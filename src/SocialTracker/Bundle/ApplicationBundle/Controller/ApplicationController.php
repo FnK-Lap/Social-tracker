@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use SocialTracker\Bundle\ApplicationBundle\Youtube\TokenResponse as YoutubeTokenResponse;
+
 
 class ApplicationController extends Controller
 {
@@ -25,15 +27,17 @@ class ApplicationController extends Controller
     {
         $instagramUrl   =   $this->get('instagram.authentication_helper')->getAuthorizeUrl();
         $facebookUrl    =   $this->get('facebook.authentication_helper')->getAuthorizeUrl();
+        $youtubeUrl     =   $this->get('youtube.authentication_helper')->getAuthorizeUrl();
         $user           =   $this->get('security.context')->getToken()->getUser();
 
         $em = $this->getDoctrine()->getManager();
         $userSettings = $em->getRepository('SocialTrackerApplicationBundle:User')->findSettingsByUser($user->getId());
 
         return $this->render('SocialTrackerApplicationBundle:Application:settings.html.twig', array(
-            'userSettings'  => $userSettings,
+            'userSettings' => $userSettings,
             'instagramUrl' => $instagramUrl,
-            'facebookUrl'  => (isset($facebookUrl)) ? $facebookUrl : null
+            'facebookUrl'  => (isset($facebookUrl)) ? $facebookUrl : null,
+            'youtubeUrl'   => $youtubeUrl
         ));
     }
 
@@ -112,6 +116,32 @@ class ApplicationController extends Controller
 
         $em->persist($user);
         $em->flush();
+
+        return $this->redirect($this->generateUrl('application_settings'));
+    }
+
+    public function youtubeCallbackAction(Request $request)
+    {
+        $helper       = $this->get('youtube.authentication_helper');
+        $code         = $request->query->get('code');
+        $response     = $helper->exchangeAuthorizationCode($code);
+
+        if ($response instanceof YoutubeTokenResponse) {
+            $user = $this->getUser()
+                         ->setYoutubeAccessToken($response->accessToken)
+                         ->setYoutubeUsername($response->username)
+            ;
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        } else {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                $response['code'].' : '.$response['message']
+            );
+        }
+
 
         return $this->redirect($this->generateUrl('application_settings'));
     }

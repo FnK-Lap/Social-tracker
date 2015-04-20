@@ -27,12 +27,12 @@
                             </ul>
                             <ul class="sidebar-nav" id="sidebar">
                                 <li><a href="{{path('application_home')}}">Accueil<i class='sub_icon fa fa-home fa-2x'></i></a></li>
-                                {% if app.user.instagramAccessToken is not null %}<li class='instagram'><a href="{{path('instagram_home')}}">Instagram<i class="sub_icon fa fa-instagram fa-2x"></i></a></li>{% endif %}
-                                {% if app.user.facebookAccessToken is not null %}<li class='facebook'><a href="{{path('facebook_home')}}">Facebook<i class="sub_icon fa fa-facebook fa-2x"></i></a></li>{% endif %}
-                                {% if app.user.youtubeAccessToken is not null %}<li class='youtube'><a>Youtube<i class="sub_icon fa fa-youtube fa-2x"></i></a></li>{% endif %}
+                                {% if app.user.instagramAccessToken is not null %}<li class='instagram'><a href="{{ path('instagram_home') }}">Instagram<i class="sub_icon fa fa-instagram fa-2x"></i></a></li>{% endif %}
+                                {% if app.user.facebookAccessToken is not null %}<li class='facebook'><a href="{{ path('facebook_home') }}">Facebook<i class="sub_icon fa fa-facebook fa-2x"></i></a></li>{% endif %}
+                                {% if app.user.youtubeAccessToken is not null %}<li class='youtube'><a href="{{ path('youtube_home') }}">Youtube<i class="sub_icon fa fa-youtube fa-2x"></i></a></li>{% endif %}
                                 {% if app.user.twitterAccessToken is not null %}<li class='twitter'><a>Twitter<i class="sub_icon fa fa-twitter fa-2x"></i></a></li>{% endif %}
-                                <li><a href="{{path('application_settings')}}">Réglage<i class="sub_icon fa fa-cogs fa-2x"></i></a></li>
-                                <li class='logout'><a href="{{path('logout')}}">Logout<i class='sub_icon fa fa-power-off fa-2x'></i></a></li>
+                                <li><a href="{{ path('application_settings') }}">Réglage<i class="sub_icon fa fa-cogs fa-2x"></i></a></li>
+                                <li class='logout'><a href="{{ path('logout') }}">Logout<i class='sub_icon fa fa-power-off fa-2x'></i></a></li>
                             </ul>
                         </div>
 

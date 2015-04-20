@@ -1,4 +1,6 @@
-# Application
+# - - - - - - - - - - #
+# -   Application   - #
+# - - - - - - - - - - #
 application_home:
     path:   /
     defaults:  { _controller: SocialTrackerApplicationBundle:Application:home }
@@ -13,15 +15,25 @@ disable_social:
     path:   /social/{social}/disable
     defaults: { _controller: SocialTrackerApplicationBundle:Application:disableSocial }
     requirements:
-        social: facebook|instagram
+        social: facebook|instagram|youtube
 
 application_settings:
     path:   /settings
     defaults: { _controller: SocialTrackerApplicationBundle:Application:settings }
 
+# API CALLBACK
 settings_instagram_callback:
     path:   /settings/instagram_callback
     defaults: { _controller: SocialTrackerApplicationBundle:Application:instagramCallback }
+
+settings_facebook_callback:
+    path:   /settings/facebook_callback
+    defaults: { _controller: SocialTrackerApplicationBundle:Application:facebookCallback }
+
+settings_youtube_callback:
+    path:   /settings/youtube_callback
+    defaults: { _controller: SocialTrackerApplicationBundle:Application:youtubeCallback }
+
 
 application_add_social:
     path:   /social/add
@@ -31,7 +43,9 @@ application_remove_social:
     path:   /social/remove
     defaults: { _controller: SocialTrackerApplicationBundle:Application:ajaxRemoveSocial }
 
-# Instagram
+# - - - - - - - - - - #
+# -    Instagram    - #
+# - - - - - - - - - - #
 instagram_home:
     path:   /instagram
     defaults: { _controller: SocialTrackerApplicationBundle:Instagram:home }
@@ -62,7 +76,9 @@ instagram_media_dislike:
     path:   /instagram/{id}/dislike
     defaults: { _controller: SocialTrackerApplicationBundle:Instagram:ajaxDislikeMedia }
 
-# Facebook
+# - - - - - - - - - - #
+# -    Facebook     - #
+# - - - - - - - - - - #
 facebook_home:
     path:   /facebook
     defaults: { _controller: SocialTrackerApplicationBundle:Facebook:home }
@@ -72,9 +88,12 @@ facebook_publish:
     defaults: { _controller: SocialTrackerApplicationBundle:Facebook:ajaxPublish }
     methods: POST
 
-settings_facebook_callback:
-    path:   /settings/facebook_callback
-    defaults: { _controller: SocialTrackerApplicationBundle:Application:facebookCallback }
+# - - - - - - - - - - #
+# -     Youtube     - #
+# - - - - - - - - - - #
+youtube_home:
+    path: /youtube
+    defaults: { _controller: SocialTrackerApplicationBundle:Youtube:home }
 
 
 

@@ -24,8 +24,13 @@ parameters:
     use_assetic_controller: true
 
     # Instagram
-    instagram_client_id: YourInstagramClientId
-    instagram_secret:    YourInstagramClientSecret
+    instagram_client_id: c35c82f270114487b144446b5ea26309
+    instagram_secret:    2097bfebee5444f3af3ff502486891d9
+
     # Facebook
-    facebook_client_id: YourFacebookClientId
-    facebook_secret:    YourFacebookClientSecret
+    facebook_client_id: 1541509976100952
+    facebook_secret:    d25d3d2a073b38f3976ca3cf4ed1a880
+
+    # Youtube
+    youtube_client_id: 74618169968-qrt84c00mb8kfv4jmafi7r57972gdvg5.apps.googleusercontent.com
+    youtube_secret:    zJvWNa_avq8r9tyCkAU5qtTm

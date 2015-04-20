@@ -13,7 +13,6 @@ class InstagramController extends Controller
 {
     public function homeAction()
     {
-        $instagram = $this->get('instagram');
         $user = $this->get('security.context')->getToken()->getUser();
 
         if ($user->getInstagramAccessToken() === null) 
