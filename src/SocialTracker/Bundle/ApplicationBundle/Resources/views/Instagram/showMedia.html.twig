@@ -3,14 +3,20 @@
 {% block title %}Instagram{% endblock %}
 
 {% block content %}
+    <!-- Refresh Button -->
+    <!-- <div class='instagram-media-refresh'>
+        <span class='label label-info badge'>
+            <i class="fa fa-refresh fa-3x"></i>
+        </span>
+    </div> -->
     <div class='row media-img'>
         <div class='col-md-12'>
-            {% if media.data.type == 'image' %}
-                <img src="{{media.data.images.standard_resolution.url}}" class='img-responsive'>
+            {% if media.content.type == 'image' %}
+                <img src="{{media.content.images.standard_resolution.url}}" class='img-responsive'>
             {% else %}
                 <div class='embed-responsive embed-responsive-4by3'>
                     <video width='100%' height='100%' type='video/mp4' class='embed-responsive-item'>
-                        <source src="{{media.data.videos.standard_resolution.url}}" type='video/mp4'>
+                        <source src="{{media.content.videos.standard_resolution.url}}" type='video/mp4'>
                     </video>
                 </div>
                   
@@ -19,31 +25,32 @@
     </div>
     <div class='row media-author'>
         <div class='col-md-4 col-md-offset-2 col-sm-12 col-xs-12'>
-            <img src="{{media.data.user.profile_picture}}" class='img-circle img-responsive' width='50'>
-            <h4>{{media.data.user.username}}</h4>
+            <img src="{{media.content.user.profile_picture}}" class='img-circle img-responsive' width='50'>
+            <h4>{{media.content.user.username}}</h4>
         </div>
-        <div class='col-md-2 col-sm-6 col-xs-6 like'>
-            <button id='like-dislike' class="btn btn-default {% if media.data.user_has_liked == true %}liked{% endif %}" type="submit"><i class='fa fa-heart fa-lg'></i>J'aime ({{media.data.likes.count}})</button>
+        <div class='col-md-2 col-sm-6 col-xs-12 like'>
+            <button id='like-dislike' class="btn btn-default {% if media.content.user_has_liked == true %}liked{% endif %}" type="submit"><i class='fa fa-heart fa-lg'></i>J'aime ({{media.content.likes.count}})</button>
         </div>
-        <div class='col-md-2 col-sm-6 col-xs-6 comment'>
-            <span class="btn btn-default"><i class='fa fa-comment-o fa-lg'></i>Commentaires ({{media.data.comments.count}})</span>
+        <div class='col-md-2 col-sm-6 col-xs-12 comment'>
+            <span class="btn btn-default"><i class='fa fa-comment-o fa-lg'></i>Commentaires ({{media.content.comments.count}})</span>
         </div>
     </div>
-    <div class='row media-caption'>
-        <div class='col-md-8 col-md-offset-2'>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                {{media.data.caption.text}}
-              </div>
+    {% if media.content.caption.text is defined %}
+        <div class='row media-caption'>
+            <div class='col-md-8 col-md-offset-2'>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {{media.content.caption.text}}
+                    </div>
+                </div>
             </div>
-            
         </div>
-    </div>
+    {% endif %}
     <div class='row'>
         <div class='col-md-12 col-sm-12 col-xs-12'>
             <h3>Derniers commentaires</h3>
             <ul class="media-list">
-                {% for comment in media.data.comments.data %}
+                {% for comment in media.content.comments.data %}
                     <li class="media">
                         <a class="media-left media-middle" href="#">
                             <img src="{{comment.from.profile_picture}}" alt="avatar" class='img-circle' width='50'>
@@ -64,7 +71,7 @@
 
 {% block script %}
     <script type="text/javascript">
-        var mediaId = "{{media.data.id}}"
+        var mediaId = "{{media.id}}"
     </script>
     <script src="/assets/js/module/ajaxClass.js"></script>
     <script src="/assets/js/module/instagramClass.js"></script>

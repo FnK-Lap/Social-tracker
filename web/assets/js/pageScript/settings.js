@@ -11,22 +11,12 @@ $(function() {
 
         var modal = $('#modal-active');
         var submit = modal.find('.modal-footer .submit');
-
-        if (action == 'activate') {
-            modal.find('.modal-title').text('Activer ' + social)
-            modal.find('.modal-body p').text('Voulez-vous activer ' + social + '?');
-            submit.off('click').on('click', function (e) {
-                ajax.send('/social/add',data,true,'POST',function(){instagram.success()},function(){instagram.success()});
-                modal.modal('hide');
-            });
-        }else if (action == 'desactivate'){
             modal.find('.modal-title').text('Désactiver ' + social)
             modal.find('.modal-body p').text('Voulez-vous désactiver ' + social + '?');
             submit.off('click').on('click', function (e) {
-                ajax.send('/social/remove',data,true,'POST',function(){instagram.success()},function(){instagram.success()});
+                ajax.send('/social/' + social + '/disable',data,true,'POST',function(){instagram.success()},function(){instagram.success()});
                 modal.modal('hide');
             });
-        };    
     });
 
     // Toggle label Connected/Disconnected

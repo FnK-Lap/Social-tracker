@@ -1,0 +1,26 @@
+SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost:
+    type: entity
+    repositoryClass: SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPostRepository
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        instagram_id:
+            type: string
+        content:
+            type: text
+        created_time:
+            type: integer
+
+    manyToOne:
+        user:
+            targetEntity: User
+            inversedBy: instagram_posts
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

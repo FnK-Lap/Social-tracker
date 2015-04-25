@@ -1,0 +1,118 @@
+{% extends "SocialTrackerApplicationBundle::Application/layout.html.twig" %}
+
+{% block title %}Facebook{% endblock %}
+
+{% block content %}
+    {% if userFeed is defined and userFeed is empty %}
+        <div class="alert alert-info" role="alert">
+            Vous n'avez aucuns posts.
+        </div>
+    {% elseif userFeed is defined and userFeed is not empty %}
+        {% for feed in userFeed %}
+            {#
+                Status
+            #}
+            {% if feed.content.type == 'status' and feed.content.story is not defined %}
+                <div class='row facebook-feed'>
+                    <div class="media facebook-status">
+                        <a href="#" class="media-left">
+                            <img alt="{{feed.content.from.name}}" class="img-circle avatar" src="{{feed.content.from.url}}">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{feed.content.from.name}}{% if feed.content.to is defined %}<small> <i class="fa fa-hand-o-right"></i> {{feed.content.to.data.0.name}} </small>{% endif %}</h4>
+                            
+                            {% if feed.content.message is defined %}
+                                <p>{{feed.content.message}}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            {#
+                Video
+            #}
+            {% elseif feed.content.type == 'video' %}
+                <div class='row facebook-feed'>
+                    <div class="media facebook-video">
+                        <a href="#" class="media-left">
+                            <img alt="{{feed.content.from.name}}" class="img-circle avatar" src="{{feed.content.from.url}}">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <small><i class='fa fa-video-camera'></i></small>
+                                {{feed.content.from.name}}
+                            </h4>
+                            <img class='facebook-video-picture img-thumbnail' src="{{feed.content.picture}}" width='200' data-video='{{feed.content.source}}'>
+                            {% if feed.content.description is defined %}<p>{{feed.content.description}}</p>{% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            {#
+                Photo
+            #}
+            {% elseif feed.content.type == 'photo' %}
+                <div class='row facebook-feed'>
+                    <div class='media facebook-photo'>
+                        <a href="#" class='media-left'>
+                            <img alt='{{feed.content.from.name}}' class='img-circle avatar' src="{{feed.content.from.url}}">
+                        </a>
+                        <div class='media-body'>
+                            <h4 class='media-heading'>
+                                <small><i class='fa fa-picture-o'></i></small>
+                                {{feed.content.from.name}}
+                                {% if feed.content.status_type is defined and feed.content.status_type == 'tagged_in_photo' %}
+                                    <small><i class="fa fa-tag"></i>{% set user = attribute(feed.content.story_tags, feed.content.story_tags.0[0].length + 15)%} Identifié sur la photo de {{user[0].name}}</small>
+                                {% elseif feed.content.status_type is defined and feed.content.status_type == 'added_photos' %}
+                                    <small><i class='fa fa-plus'></i> A ajouté une photo</small>
+                                {% endif %}
+                            </h4>
+                            <div>
+                                <img src="{{feed.content.picture}}" class='img-rounded'>
+                            </div>
+                            {% if feed.content.description is defined %}<p>{{feed.content.description}}</p>{% endif %}
+                            {% if feed.content.message is defined %}<p>{{feed.content.message}}</p>{% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            {#
+                Link
+            #}
+            {% elseif feed.content.type == 'link' and feed.content.picture is defined %}
+                <div class='row facebook-feed'>
+                    <div class='media facebook-link'>
+                        <a href="#" class='media-left'>
+                            <img alt='{{feed.content.from.name}}' class='img-circle avatar' src="{{feed.content.from.url}}">
+                        </a>
+                        <div class='media-body'>
+                            <h4 class='media-heading'>
+                                <small><i class="fa fa-link"></i></small>
+                                {{feed.content.from.name}}
+                            </h4>
+                            <div>
+                                <a href="{{feed.content.link}}" target="_blank"><img src="{{feed.content.picture}}"></a>
+                            </div>
+                            <div class='info'>
+                                <h5>{% if feed.content.message is defined %}<p>{{feed.content.message}}</p>{% endif %}</h5>
+                                {% if feed.content.description is defined %}<p>{{feed.content.description}}</p>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Vous n'êtes pas connecté a Facebook. Veuillez <a href="{{path('application_settings')}}" class="alert-link">vous connecter</a> !
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="/assets/js/module/ajaxClass.js"></script>
+    <script src="/assets/js/module/facebookClass.js"></script>
+
+    <script src="/assets/js/pageScript/facebook.js"></script>
+{% endblock %}

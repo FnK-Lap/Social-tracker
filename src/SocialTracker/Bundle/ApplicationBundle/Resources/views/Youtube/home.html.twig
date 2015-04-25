@@ -1,0 +1,28 @@
+{% extends "SocialTrackerApplicationBundle::Application/layout.html.twig" %}
+
+{% block title %}Youtube{% endblock %}
+
+{% block content %}
+     {% if userFeed is defined and userFeed is empty %}
+        <div class='alert alert-info' role='alert'>
+            Vous n'avez aucuns posts.
+        </div>
+    {% elseif userFeed is defined and userFeed is not empty %}
+        <ul class='grid cs-style-3'>
+            
+        </ul>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Vous n'êtes pas connecté a Youtube. Veuillez <a href="{{path('application_settings')}}" class="alert-link">vous connecter</a> !
+        </div>
+    {% endif %}
+{% endblock %} 
+
+{% block script %}
+    <script src="/assets/js/module/ajaxClass.js"></script>
+    {#
+    <script src="/assets/js/module/instagramClass.js"></script>
+
+    <script src="/assets/js/pageScript/instagram.js"></script>
+    #}
+{% endblock %}

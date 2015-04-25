@@ -1,10 +1,62 @@
+parameters:
+    facebook_redirect_url: 'http://social-tracker.com/settings/facebook_callback'
+
 services:
-    application_service:
-       class: SocialTracker\Bundle\ApplicationBundle\Services\ApplicationService
-       arguments: [@doctrine.orm.entity_manager, @security.context]
-    instagram_service:
-       class: SocialTracker\Bundle\ApplicationBundle\Services\InstagramService
-       arguments: [%instagram_client_id%, %instagram_secret%, @guzzle.client, @session]
-    facebook_service:
-       class: SocialTracker\Bundle\ApplicationBundle\Services\FacebookService
-       arguments: [%facebook_client_id%, %facebook_secret%, @guzzle.client, @session]
+    # - - - - - - - - - - # 
+    # -    Instagram    - #
+    # - - - - - - - - - - #
+    instagram:
+        class: SocialTracker\Bundle\ApplicationBundle\Instagram\Instagram
+        arguments:
+            - @guzzle.client
+            - @doctrine.orm.entity_manager
+
+    instagram.authentication_helper:
+        class: SocialTracker\Bundle\ApplicationBundle\Instagram\AuthenticationHelper
+        arguments:
+            - %instagram_client_id%
+            - %instagram_secret%
+            - @guzzle.client
+            - @router
+
+    # - - - - - - - - - - #
+    # -    Facebook     - #
+    # - - - - - - - - - - #
+    facebook:
+        class: SocialTracker\Bundle\ApplicationBundle\Facebook\Facebook
+        arguments:
+            - @facebook.authentication_helper
+
+    facebook.authentication_helper:
+        class: SocialTracker\Bundle\ApplicationBundle\Facebook\AuthenticationHelper
+        arguments:
+            - %facebook_client_id%
+            - %facebook_secret%
+            - @guzzle.client
+            - @router
+            - @facebook.login_helper
+
+    facebook.login_helper:
+        class: SocialTracker\Bundle\ApplicationBundle\Facebook\RedirectLoginHelper
+        arguments:
+            - @session
+            - %facebook_redirect_url%
+            - %facebook_client_id%
+            - %facebook_secret%
+
+    # - - - - - - - - - - #
+    # -     Youtube     - #
+    # - - - - - - - - - - #
+    youtube:
+        class: SocialTracker\Bundle\ApplicationBundle\Youtube\Youtube
+        arguments:
+            - @guzzle.client
+            - @youtube.authentication_helper
+
+    youtube.authentication_helper:
+        class: SocialTracker\Bundle\ApplicationBundle\Youtube\AuthenticationHelper
+        arguments: 
+            - %youtube_client_id%
+            - %youtube_secret%
+            - @guzzle.client
+            - @router

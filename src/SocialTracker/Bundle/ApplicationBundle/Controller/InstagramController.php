@@ -2,76 +2,104 @@
 
 namespace SocialTracker\Bundle\ApplicationBundle\Controller;
 
+use SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class InstagramController extends Controller
 {
     public function homeAction()
     {
-        $instagramService = $this->get('instagram_service');
+        $user = $this->get('security.context')->getToken()->getUser();
 
-        if ($this->get('session')->get('instagram') === null) 
+        if ($user->getInstagramAccessToken() === null) 
         {
             return $this->render('SocialTrackerApplicationBundle:Instagram:home.html.twig', array());
         }
 
-        $userFeed = $instagramService->getUserFeed(1);
+        $em = $this->getDoctrine()->getManager();
 
-        $response = new Response();
-        $response->setEtag(md5(json_encode($userFeed['data'][0]['images'])));
-        // $response->setPublic();
+        $userFeed = $em->getRepository('SocialTrackerApplicationBundle:InstagramPost')->findFeedByUser($user);
 
-        if ($response->isNotModified($this->getRequest())) {
-            // Retourne immédiatement un objet 304 Response
-            return $response;
-        } else {
-            // faire plus de travail ici - comme récupérer plus de données
-            $userFeed = $instagramService->getUserFeed();
-
-            // ou formatter un template avec la $response déjà existante
-            return $this->render('SocialTrackerApplicationBundle:Instagram:home.html.twig', array(
-                'userFeed' => $userFeed
-            ), $response);
+        foreach ($userFeed as &$feed) {
+            $feed['content'] = json_decode($feed['content']);
         }
+
+        return $this->render('SocialTrackerApplicationBundle:Instagram:home.html.twig', array(
+            'userFeed' => $userFeed
+        ));
+    }
+
+    public function refreshMediaAction(InstagramPost $media)
+    {
+        $instagram = $this->get('instagram');
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $newMedia = $instagram->refreshMedia($user->getInstagramAccessToken(), $media);
+
+        return new Response(json_encode($newMedia));
 
     }
 
-    public function ajaxUserFeedAction($maxId)
+    public function deleteMediaAction(Request $request, $id)
     {
-        $instagramService = $this->get('instagram_service');
-        $userFeed = $instagramService->getUserFeed(null, $maxId);
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $media = $em->getRepository('SocialTrackerApplicationBundle:InstagramPost')->find($id);
+            if ($media->getUser() === $this->getUser()) {
+                $em->remove($media);
+                $em->flush();
 
-        return new Response(json_encode($userFeed));
+                return new JsonResponse(array(
+                    'status'  => 200,
+                    'message' => 'OK'
+                ));
+            }
+            throw new AccessDeniedException("Your are not the owner of this post");
+        }
+
+        throw new AccessDeniedException("Only XmlHttpRequest was authorized");
+    }
+
+    public function ajaxLikeMediaAction(InstagramPost $media)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $instagram = $this->get('instagram');
+
+        $result = $instagram->likeMedia($user->getInstagramAccessToken(), $media->getInstagramId());
+        $newMedia = $instagram->refreshMedia($user->getInstagramAccessToken(), $media);
+
+        return new Response(json_encode($newMedia));
+    }
+
+    public function ajaxDislikeMediaAction(InstagramPost $media)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $instagram = $this->get('instagram');
+
+        $result = $instagram->dislikeMedia($user->getInstagramAccessToken(), $media->getInstagramId());
+        $newMedia = $instagram->refreshMedia($user->getInstagramAccessToken(), $media);
+
+        return new Response(json_encode($newMedia));
     }
 
     public function showMediaAction($id)
     {
-        $instagramService = $this->get('instagram_service');
-        $media = $instagramService->getMedia($id);
+        $em = $this->getDoctrine()->getManager();
+        $instagram = $this->get('instagram');
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $media = $em->getRepository('SocialTrackerApplicationBundle:InstagramPost')->findOneBy(array('instagram_id' => $id));
+        $newMedia = $instagram->refreshMedia($user->getInstagramAccessToken(), $media);
+
+        $newMedia->setContent(json_decode($newMedia->getContent()));
 
         return $this->render('SocialTrackerApplicationBundle:Instagram:showMedia.html.twig', array(
-            'media' => $media
+            'media' => $newMedia
         ));
-    }
-
-    public function ajaxLikeMediaAction($id)
-    {
-        $instagramService = $this->get('instagram_service');
-
-        $result = $instagramService->likeMedia($id);
-
-        return new Response(json_encode($result));
-    }
-
-    public function ajaxDislikeMediaAction($id)
-    {
-        $instagramService = $this->get('instagram_service');
-
-        $result = $instagramService->dislikeMedia($id);
-
-        return new Response(json_encode($result));
     }
 }

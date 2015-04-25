@@ -1,0 +1,31 @@
+SocialTracker\Bundle\ApplicationBundle\Entity\FacebookPost:
+    type: entity
+    table: null
+    repositoryClass: SocialTracker\Bundle\ApplicationBundle\Entity\FacebookPostRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        content:
+            type: text
+        facebookId:
+            type: string
+            length: 255
+            column: facebook_id
+        createdTime:
+            type: string
+            length: 255
+            column: created_time
+
+    manyToOne:
+        user:
+            targetEntity: User
+            inversedBy: facebook_posts
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+
+    lifecycleCallbacks: {  }
