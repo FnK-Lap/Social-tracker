@@ -31,14 +31,9 @@ class YoutubeFetchCommand extends ContainerAwareCommand
             $accessToken = $user->getYoutubeAccessToken();
 
             if ($accessToken) {
-                $feed = $youtube->getUserFeed($accessToken);
+                $feed = $youtube->getUserHomeActivities($accessToken);
 
-                if ($feed) {
-                    
-                    $output->writeln($user->getUsername(). ' fetch <fg=cyan>' . count($feed) . '</fg=cyan> posts');
-                } else {
-                    $output->writeln($user->getUsername(). ' fetch <fg=cyan>0</fg=cyan> posts');
-                }
+                
             } else {
                 $output->writeln($user->getUsername() . ' : <fg=red>No Token</fg=red>');
             }

@@ -48,6 +48,9 @@ class AuthenticationHelper
             );
         }
         $accessToken = $this->googleClient->getAccessToken();
+
+        // Verify refresh Token !!!!!!
+        
         $service = new \Google_Service_Youtube($this->googleClient);
         $params = array(
             'mine' => true,
