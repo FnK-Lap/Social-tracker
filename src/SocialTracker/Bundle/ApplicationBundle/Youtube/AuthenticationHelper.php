@@ -49,11 +49,12 @@ class AuthenticationHelper
         }
         $accessToken = $this->googleClient->getAccessToken();
 
-        // Verify refresh Token !!!!!!
-        
+        // Save refresh Token
+        $refreshToken = $this->googleClient->getRefreshToken();
+
         $service = new \Google_Service_Youtube($this->googleClient);
         $params = array(
-            'mine' => true,
+            'mine'   => true,
             'fields' => 'items/snippet/title'
         );
 
@@ -61,8 +62,16 @@ class AuthenticationHelper
 
         return new TokenResponse(
             $accessToken,
+            $refreshToken,
             $username
         );
+    }
+
+    public function refreshToken($refreshToken)
+    {
+        $this->googleClient->refreshToken($refreshToken);
+
+        return $this->googleClient->getAccessToken();
     }
 
     public function getGoogleClient()

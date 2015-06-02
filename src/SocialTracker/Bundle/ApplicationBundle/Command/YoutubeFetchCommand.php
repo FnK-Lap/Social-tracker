@@ -21,8 +21,9 @@ class YoutubeFetchCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $youtube = $this->getContainer()->get('youtube');
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $youtube       = $this->getContainer()->get('youtube');
+        $youtubeHelper = $this->getContainer()->get('youtube.authentication_helper');
+        $em            = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         $users = $em->getRepository('SocialTrackerApplicationBundle:User')->findAll();
 
@@ -32,6 +33,17 @@ class YoutubeFetchCommand extends ContainerAwareCommand
 
             if ($accessToken) {
                 $feed = $youtube->getUserHomeActivities($accessToken);
+
+                // Refresh token and get feed if old accessToken is expired
+                if (is_array($feed) && $feed['code'] == 400 && $feed['message'] == 'Token expired') {
+
+                    $newAccessToken = $youtubeHelper->refreshToken($user->getYoutubeRefreshToken());
+                    $user->setYoutubeAccessToken($newAccessToken);
+                    $em->flush();
+
+                    $feed = $youtube->getUserHomeActivities($newAccessToken);
+                }
+
 
                 
             } else {

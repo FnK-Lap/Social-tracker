@@ -132,6 +132,10 @@ class ApplicationController extends Controller
                          ->setYoutubeUsername($response->username)
             ;
 
+            if ($response->refreshToken) {
+                $user->setYoutubeRefreshToken($response->refreshToken);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

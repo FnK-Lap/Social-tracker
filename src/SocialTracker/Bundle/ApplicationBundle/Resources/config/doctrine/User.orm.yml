@@ -33,6 +33,9 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
         youtube_access_token:
             type: text
             nullable: true
+        youtube_refresh_token:
+            type: text
+            nullable: true
         youtube_username:
             type: string
             length: 255

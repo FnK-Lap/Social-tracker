@@ -319,6 +319,35 @@ class User extends BaseUser
     /**
      * @var string
      */
+    private $youtube_refresh_token;
+
+
+    /**
+     * Set youtube_refresh_token
+     *
+     * @param string $youtubeRefreshToken
+     * @return User
+     */
+    public function setYoutubeRefreshToken($youtubeRefreshToken)
+    {
+        $this->youtube_refresh_token = $youtubeRefreshToken;
+
+        return $this;
+    }
+
+    /**
+     * Get youtube_refresh_token
+     *
+     * @return string 
+     */
+    public function getYoutubeRefreshToken()
+    {
+        return $this->youtube_refresh_token;
+    }
+
+    /**
+     * @var string
+     */
     private $twitter_access_token;
 
 

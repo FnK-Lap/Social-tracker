@@ -18,22 +18,42 @@ class Youtube
         $this->googleClient = $helper->getGoogleClient();
     }
 
-    public function getUserHomeActivities($accessToken)
+    public function getUserHomeActivities($accessToken, $prevData = null)
     {
         $this->googleClient->setAccessToken($accessToken);
 
-        $youtube = new \Google_Service_Youtube($this->googleClient);
+        if ($this->googleClient->isAccessTokenExpired()) {
+            return array(
+                'code' => 400,
+                'message' => 'Token expired'
+            );
+        }
+
+        $youtube   = new \Google_Service_Youtube($this->googleClient);
+        $optParams = array(
+            'home'       => true,
+            'maxResults' => 5,
+            'publishedAfter' => '2015-04-28T16:00:37.000Z'
+        );
 
         try {
-            $result = $youtube->activities->listActivities('id', array('home' => true));
+            $result = $youtube->activities->listActivities('id, snippet', $optParams);
         } catch (\Google_Auth_Exception $e) {
-            // Use refresh token
             return array(
                 'code' => $e->getCode(),
                 'message' => $e->getMessage()
-            ));
+            );
         }
-        var_dump($result);
+
+        foreach ($result->getItems() as $key => $value) {
+            var_dump($value['snippet']['publishedAt']);
+        }
+        die;
+        if ($result->nextPageToken) {
+
+        }
+
+        // var_dump($result);
 
     }
 }
