@@ -44,6 +44,16 @@ application_remove_social:
     defaults: { _controller: SocialTrackerApplicationBundle:Application:ajaxRemoveSocial }
 
 # - - - - - - - - - - #
+# -       User      - #
+# - - - - - - - - - - #
+
+update_password:
+    path:   /user/{id}/updatePassword
+    defaults: { _controller: SocialTrackerApplicationBundle:User:updatePassword }
+    requirements:
+        id: \d+
+
+# - - - - - - - - - - #
 # -    Instagram    - #
 # - - - - - - - - - - #
 instagram_home:

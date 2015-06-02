@@ -5,6 +5,7 @@ namespace SocialTracker\Bundle\ApplicationBundle\Controller;
 use igorw;
 use SocialTracker\Bundle\ApplicationBundle\Entity\FacebookPost;
 use SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost;
+use SocialTracker\Bundle\ApplicationBundle\Form\ChangePasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,11 +34,14 @@ class ApplicationController extends Controller
         $em = $this->getDoctrine()->getManager();
         $userSettings = $em->getRepository('SocialTrackerApplicationBundle:User')->findSettingsByUser($user->getId());
 
+        $changePasswordForm = $this->createForm(new ChangePasswordType());
+
         return $this->render('SocialTrackerApplicationBundle:Application:settings.html.twig', array(
             'userSettings' => $userSettings,
             'instagramUrl' => $instagramUrl,
             'facebookUrl'  => (isset($facebookUrl)) ? $facebookUrl : null,
-            'youtubeUrl'   => $youtubeUrl
+            'youtubeUrl'   => $youtubeUrl,
+            'changePasswordForm' => $changePasswordForm->createView()
         ));
     }
 

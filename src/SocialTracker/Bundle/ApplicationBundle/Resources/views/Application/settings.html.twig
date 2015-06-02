@@ -108,6 +108,22 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Changement de mot de passe</h3>
+                </div>
+                <div class="panel-body">
+                    <form action='{{path('update_password', {id: 1})}}' method='post'>
+                        {{form_widget(changePasswordForm)}}
+                        <input type='submit'>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %} 
 
 {% block script %}
