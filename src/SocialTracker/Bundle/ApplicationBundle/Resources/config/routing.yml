@@ -53,6 +53,13 @@ update_password:
     requirements:
         id: \d+
 
+login:
+    path: /login
+    defaults: { _controller: SocialTrackerApplicationBundle:User:login }
+
+login_check:
+    path: /login_check
+
 # - - - - - - - - - - #
 # -    Instagram    - #
 # - - - - - - - - - - #

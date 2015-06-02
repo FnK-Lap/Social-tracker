@@ -9,6 +9,20 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
             generator:
                 strategy: AUTO
     fields:
+        username:
+            type: string
+            length: 255
+        salt:
+            type: string
+            length: 32
+        password:
+            type: string
+            length: 40
+        email:
+            type: string
+            length: 255
+        isActive:
+            type: boolean
         instagram_access_token:
             type: string
             nullable: true

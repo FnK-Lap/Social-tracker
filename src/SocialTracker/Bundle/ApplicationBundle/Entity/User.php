@@ -3,18 +3,207 @@
 namespace SocialTracker\Bundle\ApplicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * User
  */
-class User extends BaseUser
+class User implements UserInterface, \Serializable
 {
     /**
      * @var integer
      */
     protected $id;
+
+    /**
+     * @var string
+     */
+    private $instagram_access_token;
+
+    /**
+     * @var string
+     */
+    private $instagram_max_id;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $instagram_posts;
+    
+    /**
+     * @var string
+     */
+    private $instagram_username;
+    
+    /**
+     * @var string
+     */
+    private $facebook_session;
+
+    /**
+     * @var string
+     */
+    private $facebook_username;
+    
+    /**
+     * @var string
+     */
+    private $facebook_access_token;
+    
+    /**
+     * @var integer
+     */
+    private $facebook_last_post;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $facebook_posts;
+    
+    /**
+     * @var string
+     */
+    private $youtube_access_token;
+    
+    /**
+     * @var string
+     */
+    private $youtube_username;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $youtube_posts;
+    
+    /**
+     * @var string
+     */
+    private $youtube_refresh_token;
+    
+    /**
+     * @var string
+     */
+    private $twitter_access_token;
+
+
+
+    private $username;
+    private $salt;
+    private $password;
+    private $email;
+    private $isActive;
+
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+    public function getPassword()
+    {
+        return $this->password;
+    }
+    public function getEmail()
+    {
+        return $this->email;
+    }
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+    }
+
+   /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+        ) = unserialize($serialized);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->instagram_posts = new \Doctrine\Common\Collections\ArrayCollection();
+         $this->isActive = true;
+        $this->salt = md5(uniqid(null, true));
+    }
+
 
     /**
      * Get id
@@ -25,12 +214,6 @@ class User extends BaseUser
     {
         return $this->id;
     }
-
-    /**
-     * @var string
-     */
-    private $instagram_access_token;
-
 
     /**
      * Set instagram_access_token
@@ -54,10 +237,7 @@ class User extends BaseUser
     {
         return $this->instagram_access_token;
     }
-    /**
-     * @var string
-     */
-    private $instagram_max_id;
+    
 
 
     /**
@@ -82,21 +262,7 @@ class User extends BaseUser
     {
         return $this->instagram_max_id;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $instagram_posts;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->instagram_posts = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-
+    
 
     /**
      * Get instagram_posts
@@ -107,12 +273,30 @@ class User extends BaseUser
     {
         return $this->instagram_posts;
     }
+
     /**
-     * @var string
+     * Add instagram_posts
+     *
+     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts
+     * @return User
      */
-    private $instagram_username;
+    public function addInstagramPost(\SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts)
+    {
+        $this->instagram_posts[] = $instagramPosts;
 
+        return $this;
+    }
 
+    /**
+     * Remove instagram_posts
+     *
+     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts
+     */
+    public function removeInstagramPost(\SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts)
+    {
+        $this->instagram_posts->removeElement($instagramPosts);
+    }
+    
     /**
      * Set instagram_username
      *
@@ -135,16 +319,6 @@ class User extends BaseUser
     {
         return $this->instagram_username;
     }
-    /**
-     * @var string
-     */
-    private $facebook_session;
-
-    /**
-     * @var string
-     */
-    private $facebook_username;
-
 
     /**
      * Set facebook_session
@@ -191,11 +365,6 @@ class User extends BaseUser
     {
         return $this->facebook_username;
     }
-    /**
-     * @var string
-     */
-    private $facebook_access_token;
-
 
     /**
      * Set facebook_access_token
@@ -221,12 +390,6 @@ class User extends BaseUser
     }
 
     /**
-     * @var integer
-     */
-    private $facebook_last_post;
-
-
-    /**
      * Set facebook_last_post
      *
      * @param integer $facebookLastPost
@@ -248,11 +411,6 @@ class User extends BaseUser
     {
         return $this->facebook_last_post;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $facebook_posts;
-
 
     /**
      * Add facebook_posts
@@ -288,12 +446,6 @@ class User extends BaseUser
     }
 
     /**
-     * @var string
-     */
-    private $youtube_access_token;
-
-
-    /**
      * Set youtube_access_token
      *
      * @param string $youtubeAccessToken
@@ -317,69 +469,6 @@ class User extends BaseUser
     }
 
     /**
-     * @var string
-     */
-    private $youtube_refresh_token;
-
-
-    /**
-     * Set youtube_refresh_token
-     *
-     * @param string $youtubeRefreshToken
-     * @return User
-     */
-    public function setYoutubeRefreshToken($youtubeRefreshToken)
-    {
-        $this->youtube_refresh_token = $youtubeRefreshToken;
-
-        return $this;
-    }
-
-    /**
-     * Get youtube_refresh_token
-     *
-     * @return string 
-     */
-    public function getYoutubeRefreshToken()
-    {
-        return $this->youtube_refresh_token;
-    }
-
-    /**
-     * @var string
-     */
-    private $twitter_access_token;
-
-
-    /**
-     * Set twitter_access_token
-     *
-     * @param string $twitterAccessToken
-     * @return User
-     */
-    public function setTwitterAccessToken($twitterAccessToken)
-    {
-        $this->twitter_access_token = $twitterAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get twitter_access_token
-     *
-     * @return string 
-     */
-    public function getTwitterAccessToken()
-    {
-        return $this->twitter_access_token;
-    }
-
-    /**
-     * @var string
-     */
-    private $youtube_username;
-
-    /**
      * Set youtube_username
      *
      * @param string $youtubeUsername
@@ -400,34 +489,6 @@ class User extends BaseUser
     public function getYoutubeUsername()
     {
         return $this->youtube_username;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $youtube_posts;
-
-
-    /**
-     * Add instagram_posts
-     *
-     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts
-     * @return User
-     */
-    public function addInstagramPost(\SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts)
-    {
-        $this->instagram_posts[] = $instagramPosts;
-
-        return $this;
-    }
-
-    /**
-     * Remove instagram_posts
-     *
-     * @param \SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts
-     */
-    public function removeInstagramPost(\SocialTracker\Bundle\ApplicationBundle\Entity\InstagramPost $instagramPosts)
-    {
-        $this->instagram_posts->removeElement($instagramPosts);
     }
 
     /**
@@ -462,4 +523,50 @@ class User extends BaseUser
     {
         return $this->youtube_posts;
     }
+
+    /**
+     * Set youtube_refresh_token
+     *
+     * @param string $youtubeRefreshToken
+     * @return User
+     */
+    public function setYoutubeRefreshToken($youtubeRefreshToken)
+    {
+        $this->youtube_refresh_token = $youtubeRefreshToken;
+
+        return $this;
+    }
+
+    /**
+     * Get youtube_refresh_token
+     *
+     * @return string 
+     */
+    public function getYoutubeRefreshToken()
+    {
+        return $this->youtube_refresh_token;
+    }
+
+    /**
+     * Set twitter_access_token
+     *
+     * @param string $twitterAccessToken
+     * @return User
+     */
+    public function setTwitterAccessToken($twitterAccessToken)
+    {
+        $this->twitter_access_token = $twitterAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * Get twitter_access_token
+     *
+     * @return string 
+     */
+    public function getTwitterAccessToken()
+    {
+        return $this->twitter_access_token;
+    }   
 }

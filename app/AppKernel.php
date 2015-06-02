@@ -17,7 +17,6 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new SocialTracker\Bundle\ApplicationBundle\SocialTrackerApplicationBundle(),
-            new FOS\UserBundle\FOSUserBundle(),
             new Misd\GuzzleBundle\MisdGuzzleBundle(),
         );
 

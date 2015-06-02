@@ -7,6 +7,7 @@ use SocialTracker\Bundle\ApplicationBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use SocialTracker\Bundle\ApplicationBundle\Form\ChangePasswordType;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class UserController extends Controller
 {
@@ -37,5 +38,23 @@ class UserController extends Controller
 
             return $this->redirect($this->generateUrl('application_settings'));
         }
-    }   
+    }
+
+    public function loginAction()
+    {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        // get the login error if there is one
+        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+        } else {
+            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
+            $session->remove(SecurityContext::AUTHENTICATION_ERROR);
+        }
+        return $this->render('SocialTrackerApplicationBundle:Security:login.html.twig', array(
+            // last username entered by the user
+            'last_username' => $session->get(SecurityContext::LAST_USERNAME),
+            'error'         => $error,
+        ));
+    } 
 }

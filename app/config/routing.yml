@@ -1,6 +1,3 @@
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
-
 social_tracker_user:
     resource: "@SocialTrackerApplicationBundle/Resources/config/routing.yml"
     prefix:   /
