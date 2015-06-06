@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use SocialTracker\Bundle\ApplicationBundle\Youtube\TokenResponse as YoutubeTokenResponse;
+use Otp\GoogleAuthenticator;
 
 
 class ApplicationController extends Controller
@@ -31,17 +32,22 @@ class ApplicationController extends Controller
         $youtubeUrl     =   $this->get('youtube.authentication_helper')->getAuthorizeUrl();
         $user           =   $this->get('security.context')->getToken()->getUser();
 
+        if ($user->getGoogleAuthenticatorSecret()) {
+            $TotpUrl = GoogleAuthenticator::getQrCodeUrl('totp', 'SocialTracker', $user->getGoogleAuthenticatorSecret());
+        }
+
         $em = $this->getDoctrine()->getManager();
         $userSettings = $em->getRepository('SocialTrackerApplicationBundle:User')->findSettingsByUser($user->getId());
 
         $changePasswordForm = $this->createForm(new ChangePasswordType());
-
+        
         return $this->render('SocialTrackerApplicationBundle:Application:settings.html.twig', array(
-            'userSettings' => $userSettings,
-            'instagramUrl' => $instagramUrl,
-            'facebookUrl'  => (isset($facebookUrl)) ? $facebookUrl : null,
-            'youtubeUrl'   => $youtubeUrl,
-            'changePasswordForm' => $changePasswordForm->createView()
+            'userSettings'       => $userSettings,
+            'instagramUrl'       => $instagramUrl,
+            'facebookUrl'        => (isset($facebookUrl)) ? $facebookUrl : null,
+            'youtubeUrl'         => $youtubeUrl,
+            'changePasswordForm' => $changePasswordForm->createView(),
+            'totpUrl'            => isset($TotpUrl) ? $TotpUrl : null
         ));
     }
 

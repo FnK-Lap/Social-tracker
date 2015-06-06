@@ -33,4 +33,17 @@ $(function() {
             $(this).children().html('Déconnecté');
         }
     );
+
+    $('#activate_totp').click(function(event) {
+        if ($('#activate_totp').is(':checked')) {
+            ajax.send(totpActivateUrl, {}, true, 'GET', function(data){}, function(data){
+                $('.totp-options').html(data.responseText);
+            });
+        }else{
+            ajax.send(totpDesactivateUrl, {}, true, 'GET', function(data){
+                $('.totp-options').html("<div class='alert alert-success'>" + data['message'] + "</div>");
+            });
+            $('.totp-options').html('');
+        };
+    });
 });

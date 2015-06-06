@@ -21,8 +21,6 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
         email:
             type: string
             length: 255
-        isActive:
-            type: boolean
         instagram_access_token:
             type: string
             nullable: true
@@ -32,7 +30,10 @@ SocialTracker\Bundle\ApplicationBundle\Entity\User:
         instagram_max_id:
             type: string
             nullable: true
-
+        googleAuthenticatorSecret:
+            type: string
+            length: 255
+            nullable: true
         facebook_access_token:
             type: text
             nullable: true

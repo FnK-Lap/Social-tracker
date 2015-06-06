@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use SocialTracker\Bundle\ApplicationBundle\Form\ChangePasswordType;
 use Symfony\Component\Security\Core\SecurityContext;
+use Otp\Otp;
+use Otp\GoogleAuthenticator;
+use Base32\Base32;
 
 class UserController extends Controller
 {
@@ -56,5 +59,68 @@ class UserController extends Controller
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
             'error'         => $error,
         ));
-    } 
+    }
+
+    public function activateTotpAction(User $user, Request $request)
+    {
+        // Step 1 - Request QRcode
+        if ($request->isXmlHttpRequest()) {
+
+            if ($this->get('session')->get('GoogleTwoFactorSecret') !== null && $this->get('session')->get('GoogleTwoFactorSecret') !== true) {
+                $secret = $this->get('session')->get('GoogleTwoFactorSecret');
+            } else {
+                $secret = GoogleAuthenticator::generateRandom();
+            }
+
+            $url = GoogleAuthenticator::getQrCodeUrl('totp', 'SocialTracker', $secret);
+
+            $this->get('session')->set('GoogleTwoFactorSecret', $secret);
+
+            return $this->render('SocialTrackerApplicationBundle:Application:ajax/activate_totp.html.twig', array(
+                'url'    => $url
+            ));
+
+        } else {
+            // Step 2 - Validate code
+            $secret = $this->get('session')->get('GoogleTwoFactorSecret');
+            if ($request->getMethod() == 'POST' && isset($secret)) {
+                $otp = new Otp();
+                if ($otp->checkTotp(Base32::decode($secret), $request->request->get('code'))) {
+                    $this->get('session')->set('GoogleTwoFactorSecret', true);
+                    $user->setGoogleAuthenticatorSecret($secret);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->flush();
+
+                    $this->get('session')->getFlashBag()->add(
+                        'success',
+                        'La sécurité Totp a été activée'
+                    );
+
+                    $this->get('session')->set('GoogleTwoFactorSecret', true);
+                } else {
+                    $this->get('session')->getFlashBag()->add(
+                        'error',
+                        'Le code est incorect'
+                    );
+                }
+
+                return $this->redirect($this->generateUrl('application_settings'));
+            }
+        }
+    }
+
+    public function desactivateTotpAction(User $user, Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $user->setGoogleAuthenticatorSecret(null);
+            $this->getDoctrine()->getManager()->flush();
+
+            return new JsonResponse(array(
+                'status'  => 200,
+                'message' => 'La sécurité Totp a bien été désactivée'
+            ));
+        }
+
+        throw new AccessDeniedException("Only XmlHttpRequest was authorized");
+    }
 }

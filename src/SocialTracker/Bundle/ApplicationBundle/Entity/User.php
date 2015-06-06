@@ -5,7 +5,6 @@ namespace SocialTracker\Bundle\ApplicationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-
 /**
  * User
  */
@@ -15,6 +14,26 @@ class User implements UserInterface, \Serializable
      * @var integer
      */
     protected $id;
+
+    /**
+     * @var string
+     */
+    private $username;
+
+    /**
+     * @var string
+     */
+    private $salt;
+
+    /**
+     * @var string
+     */
+    private $password;
+
+    /**
+     * @var string
+     */
+    private $email;
 
     /**
      * @var string
@@ -86,37 +105,114 @@ class User implements UserInterface, \Serializable
      */
     private $twitter_access_token;
 
+    /**
+     * @var string
+     */
+    private $googleAuthenticatorSecret;
 
 
-    private $username;
-    private $salt;
-    private $password;
-    private $email;
-    private $isActive;
-
-
+    public function __construct()
+    {
+        $this->salt = md5(uniqid(null, true));
+    }
+    
+    /**
+     * Get username
+     *
+     * @return string
+     */
     public function getUsername()
     {
         return $this->username;
     }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string
+     */
     public function getSalt()
     {
         return $this->salt;
     }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
     }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
     public function getEmail()
     {
         return $this->email;
     }
-    public function getIsActive()
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
     {
-        return $this->isActive;
+        $this->email = $email;
+
+        return $this;
     }
 
-
+    /**
+     * Get roles
+     *
+     * @return array
+     */
     public function getRoles()
     {
         return array('ROLE_USER');
@@ -129,7 +225,7 @@ class User implements UserInterface, \Serializable
     {
     }
 
-   /**
+    /**
      * @see \Serializable::serialize()
      */
     public function serialize()
@@ -149,61 +245,26 @@ class User implements UserInterface, \Serializable
         ) = unserialize($serialized);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
-     * Constructor
+     * Get googleAuthenticatorSecret
+     *
+     * @return string
      */
-    public function __construct()
+    public function getGoogleAuthenticatorSecret() 
     {
-        $this->instagram_posts = new \Doctrine\Common\Collections\ArrayCollection();
-         $this->isActive = true;
-        $this->salt = md5(uniqid(null, true));
+        return $this->googleAuthenticatorSecret;
     }
 
+    /**
+     * Set googleAuthenticatorSecret
+     *
+     * @param string $googleAuthenticatorSecret
+     * @return User
+     */
+    public function setGoogleAuthenticatorSecret($googleAuthenticatorSecret) 
+    {
+        $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+    }
 
     /**
      * Get id

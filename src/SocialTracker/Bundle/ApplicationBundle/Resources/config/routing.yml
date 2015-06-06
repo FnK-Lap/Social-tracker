@@ -60,6 +60,18 @@ login:
 login_check:
     path: /login_check
 
+activate_totp:
+    path: /user/{id}/totp/activate
+    defaults: { _controller: SocialTrackerApplicationBundle:User:activateTotp }
+    requirements:
+        id: \d+
+
+desactivate_totp:
+    path: /user/{id}/totp/desactivate
+    defaults: { _controller: SocialTrackerApplicationBundle:User:desactivateTotp }
+    requirements:
+        id: \d+
+
 # - - - - - - - - - - #
 # -    Instagram    - #
 # - - - - - - - - - - #

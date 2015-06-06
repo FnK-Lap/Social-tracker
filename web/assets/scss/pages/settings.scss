@@ -25,3 +25,23 @@
         color: $twitter;
     }
 }
+
+.activate-totp {
+    .totp_qr {
+        margin: auto;
+    }
+
+    .totp_info{
+        margin-top: 6%;
+    }
+
+    .input__field--hoshi {
+        padding-bottom: 1em;
+    }
+}
+
+.totp-option {
+    .totp_qr {
+        margin: auto;
+    }
+}

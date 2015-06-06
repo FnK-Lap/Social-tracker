@@ -3,42 +3,30 @@
 {% block title %}Se connecter{% endblock %}
 
 {% block content %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <form class="form" action="" method="post">
 
-    <form action="{{ path("login_check") }}" method="post">
-        <span class="input input--minoru">
-            <input class="input__field input__field--minoru" type="text" id="username" name="_username" value="{{ last_username }}" required="required">
-            <label class="input__label input__label--minoru" for="input-14">
-                <span class="input__label-content input__label-content--minoru">Pseudo</span>
+        {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <span class="input input--kyo">
+            <input class="input__field input__field--kyo letter-spacing-10" type="number" id="input-19" name="_auth_code">
+            <label class="input__label input__label--kyo" for="input-19">
+                <span class="input__label-content input__label-content--kyo">Code</span>
             </label>
         </span>
-        <span class="input input--minoru">
-            <input class="input__field input__field--minoru" type="password" id="password" name="_password" required="required">
-            <label class="input__label input__label--minoru" for="input-14">
-                <span class="input__label-content input__label-content--minoru">Password</span>
-            </label>
-        </span>
-        <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-9">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="remember_me" name="_remember_me" value="on"> Se souvenir de moi
-                    </label>
-                    <a href="{{path('register')}}" class='col-sm-offset-2'>Inscription</a>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-5 col-sm-2">
-                <input type="submit" id="_submit" name="_submit" value="Connecter" class='btn btn-info'>
-            </div>
-        </div>
-    </form>
+        
+        <p class="submit text-center">
+            <a class='btn btn-danger' href="{{ path("logout") }}">Cancel</a>
+            <input class='btn btn-info' type="submit" value="Valider" />
+        </p>
+            <p class="cancel">
+        </p>
 
 {% endblock %}
-
 
 {% block script %}
     <script src="/assets/js/tools/classie.js"></script>

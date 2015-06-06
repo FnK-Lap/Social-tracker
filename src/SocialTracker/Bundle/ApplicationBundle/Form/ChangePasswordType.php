@@ -25,8 +25,6 @@ class ChangePasswordType extends AbstractType
             ->add('password', 'repeated', array(
                 'property_path' => 'plainPassword',
                 'type' => 'password',
-                'first_options' => array( 'attr' => array('placeholder' => 'Nouveau password')),
-                'second_options' => array('attr' => array('placeholder' => 'Confirmer')),
                 'constraints' => array(
                     new NotBlank(),
                 )
