@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Otp\Otp;
 use Otp\GoogleAuthenticator;
 use Base32\Base32;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserController extends Controller
 {
