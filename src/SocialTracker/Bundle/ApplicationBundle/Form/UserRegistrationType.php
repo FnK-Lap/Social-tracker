@@ -6,8 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
 
-class ChangePasswordType extends AbstractType
+class UserRegistrationType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,10 +17,15 @@ class ChangePasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('old_password', 'password', array(
-                'mapped' => false,
+            ->add('username', 'text', array(
                 'constraints' => array(
                     new NotBlank(),
+                )
+            ))
+            ->add('email', 'text', array(
+                'constraints' => array(
+                    new NotBlank(),
+                    new Email()
                 )
             ))
             ->add('password', 'repeated', array(
@@ -46,6 +52,6 @@ class ChangePasswordType extends AbstractType
      */
     public function getName()
     {
-        return 'change_password';
+        return 'user_registration';
     }
 }

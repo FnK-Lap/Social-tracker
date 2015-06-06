@@ -1,0 +1,48 @@
+{% extends "SocialTrackerApplicationBundle::layout.html.twig" %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block content %}
+    <h3>S'inscrire</h3>
+    <form action="{{ path('register') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal" role="form">
+        <!-- Pseudo -->
+        <div class='text-center form-errors'>
+            {{ form_errors(form.username) }}
+        </div>
+        <span class="input input--minoru">
+            {{ form_widget(form.username, {'attr': {'class': 'input__field input__field--minoru'}}) }}
+            <label class="input__label input__label--minoru" for="input-14">
+                <span class="input__label-content input__label-content--minoru">Pseudo</span>
+            </label>
+        </span>
+        <!-- Email -->
+        <div class='text-center form-errors'>
+            {{ form_errors(form.email) }}
+        </div>
+        <span class="input input--minoru">
+            {{ form_widget(form.email, {'attr': {'class': 'input__field input__field--minoru'}}) }}
+            <label class="input__label input__label--minoru" for="input-14">
+                <span class="input__label-content input__label-content--minoru">Email</span>
+            </label>
+        </span>
+        <!-- Password -->
+        {% for passwordField in form.password %}
+            <span class="input input--minoru">
+                {{ form_widget(passwordField, {'attr': {'class': 'input__field input__field--minoru'}}) }}
+                <label class="input__label input__label--minoru" for="input-14">
+                    <span class="input__label-content input__label-content--minoru">{{ loop.first ? 'Mot de passe' : 'Confirmer' }}</span>
+                </label>
+            </span>
+            <div class='text-center form-errors'>
+                {{ form_errors(passwordField) }}
+            </div>
+        {% endfor %}
+
+        {{form_rest(form)}}
+        <div class="form-group text-center">
+            <a href='{{ path("login") }}' class="btn btn-danger">Annuler</a>
+            <button type="submit" class="btn btn-info">Inscription</button>
+        </div>
+    </form>
+
+{% endblock %}

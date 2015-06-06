@@ -150,19 +150,6 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set salt
-     *
-     * @param string $salt
-     * @return User
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
      * Get password
      *
      * @return string

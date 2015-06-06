@@ -44,7 +44,7 @@
   100% { -webkit-transform: scale(0.3); -ms-transform: scale(0.3); transform: scale(0.3); } }
 body { background: url("../img/social.png"); }
 
-#login-box { margin-top: 150px; padding: 30px; border: 1px solid black; }
+#login-box { margin-top: 50px; padding: 30px; border: 1px solid black; }
 #login-box h3 { text-align: center; padding-bottom: 30px; }
 
 .row { margin-left: 0px; margin-right: 0px; }

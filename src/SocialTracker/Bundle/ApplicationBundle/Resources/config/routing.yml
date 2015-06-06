@@ -5,12 +5,6 @@ application_home:
     path:   /
     defaults:  { _controller: SocialTrackerApplicationBundle:Application:home }
 
-logout:
-    path: /logout
-
-register:
-    path: /register
-
 disable_social:
     path:   /social/{social}/disable
     defaults: { _controller: SocialTrackerApplicationBundle:Application:disableSocial }
@@ -54,11 +48,18 @@ update_password:
         id: \d+
 
 login:
-    path: /login
+    path:   /login
     defaults: { _controller: SocialTrackerApplicationBundle:User:login }
 
 login_check:
-    path: /login_check
+    path:   /login_check
+
+logout:
+    path: /logout
+
+register:
+    path:   /register
+    defaults: { _controller: SocialTrackerApplicationBundle:User:register }
 
 activate_totp:
     path: /user/{id}/totp/activate
